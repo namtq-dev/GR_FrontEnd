@@ -1,8 +1,24 @@
 import { Form, Formik } from 'formik';
 import { Link } from 'react-router-dom';
 import './style.css';
+import LoginInput from '../../components/inputs/loginInput';
+import { useState } from 'react';
+
+const loginInfos = {
+  email: '',
+  password: '',
+};
 
 export default function Login() {
+  const [login, setLogin] = useState(loginInfos);
+  const { email, password } = login;
+  console.log(login);
+
+  const handleLoginChange = (eve) => {
+    const { name, value } = eve.target;
+    setLogin({ ...login, [name]: value });
+  };
+
   return (
     <div className="login">
       <div className="login_wrapper">
@@ -15,11 +31,21 @@ export default function Login() {
           </div>
           <div className="login_2">
             <div className="login_2_wrap">
-              <Formik>
+              <Formik enableReinitialize initialValues={{ email, password }}>
                 {(formik) => (
                   <Form>
-                    <input type="text" />
-                    <input type="text" />
+                    <LoginInput
+                      type="text"
+                      name="email"
+                      placeholder="Email address"
+                      onChange={handleLoginChange}
+                    />
+                    <LoginInput
+                      type="password"
+                      name="password"
+                      placeholder="Password"
+                      onChange={handleLoginChange}
+                    />
                     <button className="blue_btn" type="submit">
                       Log in
                     </button>
