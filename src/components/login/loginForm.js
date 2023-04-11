@@ -12,7 +12,6 @@ const loginInfos = {
 export default function LoginForm() {
   const [login, setLogin] = useState(loginInfos);
   const { email, password } = login;
-  console.log(login);
 
   const handleLoginChange = (eve) => {
     const { name, value } = eve.target;
