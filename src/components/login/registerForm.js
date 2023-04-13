@@ -1,6 +1,7 @@
 import { Form, Formik } from 'formik';
 import { useState } from 'react';
 import RegisterInput from '../inputs/registerInput';
+import * as Yup from 'yup';
 
 export default function RegisterForm() {
   const registerInfos = {
@@ -15,7 +16,8 @@ export default function RegisterForm() {
   };
 
   const [register, setRegister] = useState(registerInfos);
-  const { bYear, bMonth, bDay } = register;
+  const { firstName, lastName, email, password, bYear, bMonth, bDay, gender } =
+    register;
 
   const handleRegisterChange = (eve) => {
     const { name, value } = eve.target;
@@ -37,6 +39,33 @@ export default function RegisterForm() {
     (val, index) => 1 + index
   );
 
+  const registerValidation = Yup.object({
+    firstName: Yup.string()
+      .required("What's your name?")
+      .min(3, 'First name must be at least 3 characters long.')
+      .max(30, 'First name must be at most 30 characters long.')
+      .matches(/^[aA-zZ]+$/, 'Numbers and special characters are not allowed.'),
+    lastName: Yup.string()
+      .required("What's your name?")
+      .min(3, 'Last name must be at least 3 characters long.')
+      .max(30, 'Last name must be at most 30 characters long.')
+      .matches(
+        /^[aA-zZ\s]+$/,
+        'Numbers and special characters are not allowed. White space is allowed.'
+      ),
+    email: Yup.string()
+      .required(
+        "You'll use this when you log in and if you ever need to reset your password."
+      )
+      .email('Please enter a valid email address.'),
+    password: Yup.string()
+      .required(
+        'Enter a combination of at least six numbers, letters and punctuation marks (such as ! and &).'
+      )
+      .min(6, 'Password must be at least 6 characters long.')
+      .max(50, 'Password must be at most 50 characters long.'),
+  });
+
   return (
     <div className="blur">
       <div className="register">
@@ -45,7 +74,20 @@ export default function RegisterForm() {
           <span>Sign Up</span>
           <span>It's quick and easy.</span>
         </div>
-        <Formik>
+        <Formik
+          enableReinitialize
+          initialValues={{
+            firstName,
+            lastName,
+            email,
+            password,
+            bYear,
+            bMonth,
+            bDay,
+            gender,
+          }}
+          validationSchema={registerValidation}
+        >
           {(formik) => (
             <Form className="register_form">
               <div className="reg_line">
