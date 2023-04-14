@@ -2,6 +2,8 @@ import { Form, Formik } from 'formik';
 import { useState } from 'react';
 import RegisterInput from '../inputs/registerInput';
 import * as Yup from 'yup';
+import DateOfBirthSelect from './dateOfBirthSelect';
+import GenderSelect from './genderSelect';
 
 export default function RegisterForm() {
   const registerInfos = {
@@ -66,6 +68,9 @@ export default function RegisterForm() {
       .max(50, 'Password must be at most 50 characters long.'),
   });
 
+  const [dateError, setDateError] = useState('');
+  const [genderError, setGenderError] = useState('');
+
   return (
     <div className="blur">
       <div className="register">
@@ -87,6 +92,31 @@ export default function RegisterForm() {
             gender,
           }}
           validationSchema={registerValidation}
+          onSubmit={() => {
+            let currentDate = new Date();
+            let registeredDate = new Date(bYear, bMonth - 1, bDay);
+            let atLeast14 = new Date(1970 + 14, 0, 1);
+            let atMost70 = new Date(1970 + 70, 0, 1);
+            if (currentDate - registeredDate < atLeast14) {
+              setDateError(
+                "It looks like you've entered the wrong info. Please make sure that you use your real date of birth."
+              );
+              setGenderError('');
+            } else if (currentDate - registeredDate > atMost70) {
+              setDateError(
+                "It looks like you've entered the wrong info. Please make sure that you use your real date of birth."
+              );
+              setGenderError('');
+            } else if (gender === '') {
+              setDateError('');
+              setGenderError(
+                'Please choose a gender. You can change who can see this later.'
+              );
+            } else {
+              setDateError('');
+              setGenderError('');
+            }
+          }}
         >
           {(formik) => (
             <Form className="register_form">
@@ -124,78 +154,25 @@ export default function RegisterForm() {
                 <div className="reg_line_header">
                   Date of birth <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <select
-                    name="bDay"
-                    value={bDay}
-                    onChange={handleRegisterChange}
-                  >
-                    {days.map((day, index) => (
-                      <option value={day} key={index}>
-                        {day}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bMonth"
-                    value={bMonth}
-                    onChange={handleRegisterChange}
-                  >
-                    {months.map((month, index) => (
-                      <option value={month} key={index}>
-                        {month}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    name="bYear"
-                    value={bYear}
-                    onChange={handleRegisterChange}
-                  >
-                    {years.map((year, index) => (
-                      <option value={year} key={index}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <DateOfBirthSelect
+                  bDay={bDay}
+                  bMonth={bMonth}
+                  bYear={bYear}
+                  days={days}
+                  months={months}
+                  years={years}
+                  handleRegisterChange={handleRegisterChange}
+                  dateError={dateError}
+                />
               </div>
               <div className="reg_col">
                 <div className="reg_line_header">
                   Gender <i className="info_icon"></i>
                 </div>
-                <div className="reg_grid">
-                  <label htmlFor="male">
-                    Male
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="male"
-                      value="male"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="female">
-                    Female
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="female"
-                      value="female"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                  <label htmlFor="custom">
-                    Custom
-                    <input
-                      type="radio"
-                      name="gender"
-                      id="custom"
-                      value="custom"
-                      onChange={handleRegisterChange}
-                    />
-                  </label>
-                </div>
+                <GenderSelect
+                  handleRegisterChange={handleRegisterChange}
+                  genderError={genderError}
+                />
               </div>
               <div className="reg_infos">
                 By clicking Sign Up, you agree to our{' '}
@@ -204,7 +181,9 @@ export default function RegisterForm() {
                 notifications from us and can opt out at any time.
               </div>
               <div className="reg_btn_wrapper">
-                <button className="blue_btn open_signup">Sign Up</button>
+                <button className="blue_btn open_signup" type="submit">
+                  Sign Up
+                </button>
               </div>
             </Form>
           )}
