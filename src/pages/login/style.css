@@ -247,7 +247,7 @@
 }
 /* Footer */
 
-/*----DoB and gender errors-----*/
+/* DoB and gender errors */
 .reg_grid .input_error {
   width: 300px;
   position: absolute;
@@ -257,7 +257,17 @@
   left: -97%;
   top: 15px !important;
 }
-/*----DoB and gender errors-----*/
+/* DoB and gender errors */
+
+/* Error and Success */
+.error_text {
+  color: var(--error-color);
+}
+
+.success_text {
+  color: var(--green-color);
+}
+/* Error and Success */
 
 /* Media queries */
 @media (min-width: 539px) {
