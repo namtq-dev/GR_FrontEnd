@@ -56,7 +56,7 @@ export default function LoginForm({ setVisible }) {
   return (
     <div className="login_wrap">
       <div className="login_1">
-        <img src="../../icons/aimer4.png" alt="" />
+        <img src="../../icons/aimer.svg" alt="" />
         <span>
           Aimer helps you connect and share with the people in your life.
         </span>
