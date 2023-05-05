@@ -18,6 +18,7 @@ import SearchMenu from './searchMenu';
 import { useRef, useState } from 'react';
 import AllMenu from './allMenu';
 import useClickOutside from '../../helpers/clickOutside';
+import UserMenu from './userMenu';
 
 export default function Header() {
   const color = '#65676b';
@@ -97,6 +98,7 @@ export default function Header() {
         </div>
         <div className="circle_icon hover1">
           <ArrowDown />
+          <UserMenu user={user} />
         </div>
       </div>
     </header>
