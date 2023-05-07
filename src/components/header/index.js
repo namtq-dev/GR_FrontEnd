@@ -85,14 +85,14 @@ export default function Header() {
           <img src={user?.picture} alt="" />
           <span>{user?.firstName}</span>
         </Link>
-        <div
-          className="circle_icon hover1"
-          ref={allMenu}
-          onClick={() => {
-            setShowAllMenu((prev) => !prev);
-          }}
-        >
-          <Menu />
+        <div className="circle_icon hover1" ref={allMenu}>
+          <div
+            onClick={() => {
+              setShowAllMenu((prev) => !prev);
+            }}
+          >
+            <Menu />
+          </div>
           {showAllMenu && <AllMenu />}
         </div>
         <div className="circle_icon hover1">
