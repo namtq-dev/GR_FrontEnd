@@ -94,7 +94,9 @@ export default function Header() {
               setShowAllMenu((prev) => !prev);
             }}
           >
-            <Menu />
+            <div style={{ transform: 'translateY(2px)' }}>
+              <Menu />
+            </div>
           </div>
           {showAllMenu && <AllMenu />}
         </div>
@@ -114,7 +116,9 @@ export default function Header() {
               setShowUserMenu((prev) => !prev);
             }}
           >
-            <ArrowDown />
+            <div style={{ transform: 'translateY(2px)' }}>
+              <ArrowDown />
+            </div>
           </div>
           {showUserMenu && <UserMenu user={user} />}
         </div>
