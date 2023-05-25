@@ -5,6 +5,7 @@ import RightHome from '../../components/home/right';
 import Stories from '../../components/home/stories';
 import CreatePost from '../../components/createPost';
 import './style.css';
+import SendVerification from '../../components/home/sendVerification';
 
 export default function Home() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -15,6 +16,7 @@ export default function Home() {
       <LeftHome user={user} />
       <div className="home_middle">
         <Stories />
+        <SendVerification />
         <CreatePost user={user} />
       </div>
       <RightHome user={user} />
