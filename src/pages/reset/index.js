@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cookies from 'js-cookie';
 import { useState } from 'react';
 import SearchAccount from './searchAccount';
+import SendEmail from './sendEmail';
 
 export default function Reset() {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export default function Reset() {
   const { user } = useSelector((state) => ({ ...state }));
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [visible, setVisible] = useState(0);
+  const [visible, setVisible] = useState(1);
 
   const logout = () => {
     Cookies.set('user', '');
@@ -45,7 +46,10 @@ export default function Reset() {
         )}
       </div>
       <div className="reset_wrap">
-        <SearchAccount email={email} setEmail={setEmail} error={error} />
+        {visible === 0 && (
+          <SearchAccount email={email} setEmail={setEmail} error={error} />
+        )}
+        {visible === 1 && <SendEmail user={user} />}
       </div>
     </div>
   );
