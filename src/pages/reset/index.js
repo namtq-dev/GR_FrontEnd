@@ -5,6 +5,8 @@ import Cookies from 'js-cookie';
 import { useState } from 'react';
 import SearchAccount from './searchAccount';
 import SendEmail from './sendEmail';
+import VerificationCode from './verificationCode';
+import Footer from '../../components/login/footer';
 
 export default function Reset() {
   const dispatch = useDispatch();
@@ -13,7 +15,8 @@ export default function Reset() {
   const { user } = useSelector((state) => ({ ...state }));
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [visible, setVisible] = useState(1);
+  const [code, setCode] = useState('');
+  const [visible, setVisible] = useState(2);
 
   const logout = () => {
     Cookies.set('user', '');
@@ -50,7 +53,11 @@ export default function Reset() {
           <SearchAccount email={email} setEmail={setEmail} error={error} />
         )}
         {visible === 1 && <SendEmail user={user} />}
+        {visible === 2 && (
+          <VerificationCode code={code} setCode={setCode} error={error} />
+        )}
       </div>
+      <Footer />
     </div>
   );
 }
