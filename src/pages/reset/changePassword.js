@@ -10,7 +10,7 @@ export default function ChangePassword({
   error,
 }) {
   return (
-    <div className="reset_form" style={{ height: '320px' }}>
+    <div className="reset_form" style={{ height: '310px' }}>
       <div className="reset_form_header">Change Password</div>
       <div className="reset_form_text">Reset your Aimer password.</div>
       <Formik enableReinitialize initialValues={{ password, confirmPassword }}>
