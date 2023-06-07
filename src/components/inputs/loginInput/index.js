@@ -7,13 +7,20 @@ export default function LoginInput({ bottom, ...params }) {
   const desktopView = useMediaQuery({
     query: '(min-width: 850px)',
   });
+  const largeScreenView = useMediaQuery({
+    query: '(max-width: 1050px)',
+  });
 
   return (
     <div className="input_wrap">
       {meta.touched && meta.error && !bottom && (
         <div
           className={
-            desktopView ? 'input_error input_error_desktop' : 'input_error'
+            desktopView && largeScreenView && field.name === 'password'
+              ? 'input_error input_error_desktop password_error'
+              : desktopView
+              ? 'input_error input_error_desktop'
+              : 'input_error'
           }
           style={{ transform: 'translateY(3px)' }}
         >
@@ -36,7 +43,11 @@ export default function LoginInput({ bottom, ...params }) {
       {meta.touched && meta.error && bottom && (
         <div
           className={
-            desktopView ? 'input_error input_error_desktop' : 'input_error'
+            desktopView && largeScreenView && field.name === 'confirmPassword'
+              ? 'input_error confirm_password_error'
+              : desktopView
+              ? 'input_error input_error_desktop'
+              : 'input_error'
           }
           style={{ transform: 'translateY(2px)' }}
         >
