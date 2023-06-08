@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export default function SendEmail({ user }) {
+export default function SendEmail({ userInfos }) {
   return (
     <div className="reset_form dynamic_height">
       <div className="reset_form_header">Reset Your Password</div>
@@ -12,14 +12,13 @@ export default function SendEmail({ user }) {
           <label htmlFor="email" className="hover1">
             <input type="radio" name="email" id="email" checked readOnly />
             <div className="label_col">
-              <span>Send code via email</span>{' '}
-              <span>vietnam245268@gmail.com</span>
+              <span>Send code via email</span> <span>{userInfos.email}</span>
             </div>
           </label>
         </div>
         <div className="reset_right">
-          <img src={user?.picture} alt="" />
-          <span>vietnam245268@gmail.com</span> <span>Aimer user</span>
+          <img src={userInfos.picture} alt="" />
+          <span>{userInfos.email}</span> <span>Aimer user</span>
         </div>
       </div>
       <div className="reset_form_btns">

@@ -20,6 +20,8 @@ export default function Reset() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [visible, setVisible] = useState(3);
+  const [loading, setLoading] = useState(false);
+  const [userInfos, setUserInfos] = useState('');
 
   const logout = () => {
     Cookies.set('user', '');
@@ -53,9 +55,17 @@ export default function Reset() {
       </div>
       <div className="reset_wrap">
         {visible === 0 && (
-          <SearchAccount email={email} setEmail={setEmail} error={error} />
+          <SearchAccount
+            email={email}
+            setEmail={setEmail}
+            error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setUserInfos={setUserInfos}
+            setVisible={setVisible}
+          />
         )}
-        {visible === 1 && <SendEmail user={user} />}
+        {visible === 1 && userInfos && <SendEmail userInfos={userInfos} />}
         {visible === 2 && (
           <VerificationCode code={code} setCode={setCode} error={error} />
         )}
