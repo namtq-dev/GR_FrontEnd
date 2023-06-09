@@ -19,7 +19,7 @@ export default function Reset() {
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [visible, setVisible] = useState(3);
+  const [visible, setVisible] = useState(0);
   const [loading, setLoading] = useState(false);
   const [userInfos, setUserInfos] = useState('');
 
@@ -65,7 +65,17 @@ export default function Reset() {
             setVisible={setVisible}
           />
         )}
-        {visible === 1 && userInfos && <SendEmail userInfos={userInfos} />}
+        {visible === 1 && userInfos && (
+          <SendEmail
+            userInfos={userInfos}
+            setUserInfos={setUserInfos}
+            error={error}
+            setError={setError}
+            loading={loading}
+            setLoading={setLoading}
+            setVisible={setVisible}
+          />
+        )}
         {visible === 2 && (
           <VerificationCode code={code} setCode={setCode} error={error} />
         )}
