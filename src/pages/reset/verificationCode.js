@@ -2,13 +2,39 @@ import { Form, Formik } from 'formik';
 import LoginInput from '../../components/inputs/loginInput';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import axios from 'axios';
 
-export default function VerificationCode({ code, setCode, error }) {
+export default function VerificationCode({
+  userInfos,
+  code,
+  setCode,
+  error,
+  setError,
+  loading,
+  setLoading,
+  setVisible,
+}) {
+  const verifyCode = async () => {
+    try {
+      setLoading(true);
+      await axios.post(
+        `${process.env.REACT_APP_BACKEND_URL}/validateResetCode`,
+        { email: userInfos.email, code }
+      );
+      setVisible(3);
+      setError('');
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setError(error.response.data.message);
+    }
+  };
+
   const validateCode = Yup.object({
     code: Yup.string()
       .required('Verification code is required')
-      .min('5', 'Invalid verification code')
-      .max('5', 'Invalid verification code'),
+      .min('6', 'Invalid verification code')
+      .max('6', 'Invalid verification code'),
   });
 
   return (
@@ -21,6 +47,9 @@ export default function VerificationCode({ code, setCode, error }) {
         enableReinitialize
         initialValues={{ code }}
         validationSchema={validateCode}
+        onSubmit={() => {
+          verifyCode();
+        }}
       >
         {(formik) => (
           <Form>
