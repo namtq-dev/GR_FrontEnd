@@ -89,11 +89,15 @@ export default function Reset() {
         )}
         {visible === 3 && (
           <ChangePassword
+            userInfos={userInfos}
             password={password}
             setPassword={setPassword}
             confirmPassword={confirmPassword}
             setConfirmPassword={setConfirmPassword}
             error={error}
+            setError={setError}
+            setLoading={setLoading}
+            setVisible={setVisible}
           />
         )}
       </div>
