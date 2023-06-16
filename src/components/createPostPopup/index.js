@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import EmojiPickerAndBackground from './emojiPickerAndBackground';
+import AddToYourPost from './addToYourPost';
 import './style.css';
 
 export default function CreatePostPopup({ user }) {
@@ -49,6 +50,7 @@ export default function CreatePostPopup({ user }) {
             />
           </>
         )}
+        <AddToYourPost />
       </div>
     </div>
   );
