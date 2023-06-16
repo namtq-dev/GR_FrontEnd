@@ -51,6 +51,7 @@ export default function CreatePostPopup({ user }) {
           </>
         )}
         <AddToYourPost />
+        <button className="post_submit">Post</button>
       </div>
     </div>
   );
