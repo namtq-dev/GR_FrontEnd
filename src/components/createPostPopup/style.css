@@ -161,3 +161,29 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+.overflow_a {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.post_input2 {
+  position: relative;
+  display: block;
+  font-size: 15px;
+  min-height: 15px !important;
+}
+
+.move_left {
+  transform: translateX(-10px);
+}
+
+.move_picker2 {
+  right: 1rem;
+  top: 9.7rem;
+  z-index: 9999;
+}
+
+.image_input {
+  display: flex;
+}
