@@ -28,8 +28,8 @@ export default function EmojiPickerAndBackground({
   };
 
   return (
-    <div className={type2 && 'image_input'}>
-      <div className={!type2 && 'flex_center'}>
+    <div className={type2 ? 'image_input' : ''}>
+      <div className={!type2 ? 'flex_center' : ''}>
         <textarea
           ref={textRef}
           maxLength="500"
@@ -39,7 +39,7 @@ export default function EmojiPickerAndBackground({
           onChange={(eve) => setText(eve.target.value)}
         ></textarea>
       </div>
-      <div className={!type2 && 'post_emojis_wrap'}>
+      <div className={!type2 ? 'post_emojis_wrap' : ''}>
         {picker && (
           <div
             className={`comment_emoji_picker ${
