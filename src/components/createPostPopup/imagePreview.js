@@ -9,7 +9,16 @@ export default function ImagePreview({
   setImages,
 }) {
   const imageInputRef = useRef(null);
-  const handleImages = () => {};
+  const handleImages = (eve) => {
+    let files = Array.from(eve.target.files);
+    files.forEach((img) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (readerEvent) => {
+        setImages((images) => [...images, readerEvent.target.result]);
+      };
+    });
+  };
 
   return (
     <div className="overflow_a">
@@ -34,7 +43,12 @@ export default function ImagePreview({
             <div className="small_white_circle">
               <i className="exit_icon"></i>
             </div>
-            <div className="add_col">
+            <div
+              className="add_col"
+              onClick={() => {
+                imageInputRef.current.click();
+              }}
+            >
               <div className="add_circle">
                 <i className="addPhoto_icon"></i>
               </div>
