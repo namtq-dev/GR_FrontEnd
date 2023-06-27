@@ -7,6 +7,7 @@ export default function ImagePreview({
   user,
   images,
   setImages,
+  setShowPrev,
 }) {
   const imageInputRef = useRef(null);
   const handleImages = (eve) => {
@@ -79,13 +80,18 @@ export default function ImagePreview({
               }
             >
               {images.map((img, i) => (
-                <img src={img} key={i} />
+                <img src={img} key={i} alt="" />
               ))}
             </div>
           </div>
         ) : (
           <div className="add_pics_inside1">
-            <div className="small_white_circle">
+            <div
+              className="small_white_circle"
+              onClick={() => {
+                setShowPrev(false);
+              }}
+            >
               <i className="exit_icon"></i>
             </div>
             <div

@@ -46,9 +46,10 @@ export default function CreatePostPopup({ user }) {
             user={user}
             images={images}
             setImages={setImages}
+            setShowPrev={setShowPrev}
           />
         )}
-        <AddToYourPost />
+        <AddToYourPost setShowPrev={setShowPrev} />
         <button className="post_submit">Post</button>
       </div>
     </div>

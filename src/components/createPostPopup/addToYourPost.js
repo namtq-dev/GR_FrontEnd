@@ -1,10 +1,15 @@
 import { Dots, Feeling, Photo } from '../../svg';
 
-export default function AddToYourPost() {
+export default function AddToYourPost({ setShowPrev }) {
   return (
     <div className="add_to_your_post">
       <div className="addto_text">Add to your post</div>
-      <div className="post_header_right hover1">
+      <div
+        className="post_header_right hover1"
+        onClick={() => {
+          setShowPrev((prev) => !prev);
+        }}
+      >
         <Photo color="#45bd62" />
       </div>
       <div className="post_header_right hover1">
