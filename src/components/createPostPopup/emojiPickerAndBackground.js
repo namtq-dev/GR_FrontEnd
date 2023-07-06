@@ -9,6 +9,7 @@ export default function EmojiPickerAndBackground({
 }) {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
+  const [showBgs, setShowBgs] = useState(false);
 
   const textRef = useRef(null);
 
@@ -26,6 +27,19 @@ export default function EmojiPickerAndBackground({
     setText(newText);
     setCursorPosition(textBeforeCursor.length + emoji.length);
   };
+
+  const postBackgrounds = [
+    '../../../images/postbackgrounds/1.jpg',
+    '../../../images/postbackgrounds/2.jpg',
+    '../../../images/postbackgrounds/3.jpg',
+    '../../../images/postbackgrounds/4.jpg',
+    '../../../images/postbackgrounds/5.jpg',
+    '../../../images/postbackgrounds/6.jpg',
+    '../../../images/postbackgrounds/7.jpg',
+    '../../../images/postbackgrounds/8.jpg',
+    '../../../images/postbackgrounds/9.jpg',
+    '../../../images/postbackgrounds/10.jpg',
+  ];
 
   return (
     <div className={type2 ? 'image_input' : ''}>
@@ -49,7 +63,23 @@ export default function EmojiPickerAndBackground({
             <Picker onEmojiClick={handleEmoji} />
           </div>
         )}
-        {!type2 && <img src="../../../icons/colorful.png" alt="" />}
+        {!type2 && (
+          <img
+            src="../../../icons/colorful.png"
+            alt=""
+            onClick={() => {
+              setShowBgs((prev) => !prev);
+            }}
+          />
+        )}
+        {!type2 && showBgs && (
+          <div className="post_backgrounds">
+            <div className="no_bg"></div>
+            {postBackgrounds.map((bg, i) => (
+              <img src={bg} key={i} alt="" />
+            ))}
+          </div>
+        )}
         <i
           className={`emoji_icon_large ${type2 && 'move_left'}`}
           onClick={() => {
