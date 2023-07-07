@@ -8,6 +8,7 @@ export default function CreatePostPopup({ user }) {
   const [text, setText] = useState('');
   const [showPrev, setShowPrev] = useState(false);
   const [images, setImages] = useState([]);
+  const [background, setBackground] = useState('');
 
   return (
     <div className="blur">
@@ -37,6 +38,8 @@ export default function CreatePostPopup({ user }) {
               text={text}
               setText={setText}
               user={user}
+              background={background}
+              setBackground={setBackground}
             />
           </>
         ) : (

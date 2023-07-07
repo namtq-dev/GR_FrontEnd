@@ -6,12 +6,15 @@ export default function EmojiPickerAndBackground({
   setText,
   user,
   type2,
+  background,
+  setBackground,
 }) {
   const [picker, setPicker] = useState(false);
   const [cursorPosition, setCursorPosition] = useState();
   const [showBgs, setShowBgs] = useState(false);
 
   const textRef = useRef(null);
+  const bgRef = useRef(null);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -38,19 +41,38 @@ export default function EmojiPickerAndBackground({
     '../../../images/postbackgrounds/7.jpg',
     '../../../images/postbackgrounds/8.jpg',
     '../../../images/postbackgrounds/9.jpg',
-    '../../../images/postbackgrounds/10.jpg',
+    // '../../../images/postbackgrounds/10.jpg',
   ];
+
+  const backgroundHandler = (index) => {
+    bgRef.current.style.backgroundImage = `url(${postBackgrounds[index]})`;
+    bgRef.current.classList.add('bg_handler');
+    setBackground(postBackgrounds[index]);
+  };
+
+  const removeBackground = () => {
+    bgRef.current.style.backgroundImage = '';
+    bgRef.current.classList.remove('bg_handler');
+    setBackground('');
+  };
 
   return (
     <div className={type2 ? 'image_input' : ''}>
-      <div className={!type2 ? 'flex_center' : ''}>
+      <div className={!type2 ? 'flex_center' : ''} ref={bgRef}>
         <textarea
           ref={textRef}
-          maxLength="500"
+          maxLength="250"
           value={text}
           placeholder={`What's on your mind, ${user?.firstName}?`}
           className={`post_input ${type2 && 'post_input2'}`}
           onChange={(eve) => setText(eve.target.value)}
+          style={{
+            paddingTop: `${
+              background
+                ? Math.abs(textRef.current.value.length * 0.1 - 32)
+                : '0'
+            }%`,
+          }}
         ></textarea>
       </div>
       <div className={!type2 ? 'post_emojis_wrap' : ''}>
@@ -74,9 +96,21 @@ export default function EmojiPickerAndBackground({
         )}
         {!type2 && showBgs && (
           <div className="post_backgrounds">
-            <div className="no_bg"></div>
+            <div
+              className="no_bg"
+              onClick={() => {
+                removeBackground();
+              }}
+            ></div>
             {postBackgrounds.map((bg, i) => (
-              <img src={bg} key={i} alt="" />
+              <img
+                src={bg}
+                key={i}
+                alt=""
+                onClick={() => {
+                  backgroundHandler(i);
+                }}
+              />
             ))}
           </div>
         )}

@@ -429,3 +429,15 @@
   border-radius: 10px;
   cursor: pointer;
 }
+
+.bg_handler {
+  height: 360px;
+  width: 100%;
+  background-size: cover;
+}
+
+.bg_handler textarea {
+  text-align: center;
+  height: 360px;
+  margin-top: 10px;
+}
