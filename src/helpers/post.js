@@ -23,7 +23,9 @@ export const createPost = async (
       }
     );
 
-    return data;
+    if (data._id) {
+      return 'OK';
+    }
   } catch (error) {
     return error.response.data.message;
   }
