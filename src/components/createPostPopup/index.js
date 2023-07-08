@@ -7,6 +7,8 @@ import useClickOutside from '../../helpers/clickOutside';
 import { createPost } from '../../helpers/post';
 import PulseLoader from 'react-spinners/PulseLoader';
 import PostError from './postError';
+import dataURItoBlob from '../../helpers/dataURItoBlob';
+import { uploadImages } from '../../helpers/uploadImages';
 
 export default function CreatePostPopup({ user, setCreatePostVisible }) {
   const [text, setText] = useState('');
@@ -42,6 +44,63 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
       } else {
         setError(response);
       }
+    } else if (images && images.length) {
+      setLoading(true);
+      const postImages = images.map((img) => {
+        return dataURItoBlob(img);
+      });
+      const path = `${user.username}/postImages`;
+
+      // send to backend in form data
+      let formData = new FormData();
+      formData.append('path', path);
+      postImages.forEach((img) => {
+        formData.append('file', img);
+      });
+
+      const uploadResponse = await uploadImages(
+        formData,
+        path,
+        user.loginToken
+      );
+      const response = await createPost(
+        null,
+        null,
+        text,
+        uploadResponse,
+        user.id,
+        user.loginToken
+      );
+      setLoading(false);
+
+      if (response === 'OK') {
+        setText('');
+        setImages('');
+        setCreatePostVisible(false);
+      } else {
+        setError(response);
+      }
+    } else if (text) {
+      setLoading(true);
+      const response = await createPost(
+        null,
+        null,
+        text,
+        null,
+        user.id,
+        user.loginToken
+      );
+
+      setLoading(false);
+      if (response === 'OK') {
+        setBackground('');
+        setText('');
+        setCreatePostVisible(false);
+      } else {
+        setError(response);
+      }
+    } else {
+      console.log('nothing');
     }
   };
 
