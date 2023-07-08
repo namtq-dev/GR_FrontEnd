@@ -150,6 +150,7 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
             images={images}
             setImages={setImages}
             setShowPrev={setShowPrev}
+            setError={setError}
           />
         )}
         <AddToYourPost setShowPrev={setShowPrev} />

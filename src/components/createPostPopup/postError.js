@@ -1,7 +1,7 @@
 export default function PostError({ error, setError }) {
   return (
     <div className="post_error">
-      <div>{error}</div>
+      <div className="post_error_text">{error}</div>
       <button
         className="blue_btn"
         onClick={() => {

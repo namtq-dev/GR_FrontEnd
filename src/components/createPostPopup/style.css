@@ -459,6 +459,12 @@
   color: var(--error-color);
   animation: anim 0.3s;
   border-radius: 5px;
+  padding: 3rem;
+}
+
+.post_error_text {
+  width: 75%;
+  font-weight: 600;
 }
 /* Post error */
 

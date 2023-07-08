@@ -8,11 +8,26 @@ export default function ImagePreview({
   images,
   setImages,
   setShowPrev,
+  setError,
 }) {
   const imageInputRef = useRef(null);
   const handleImages = (eve) => {
     let files = Array.from(eve.target.files);
     files.forEach((img) => {
+      if (
+        img.type !== 'image/jpeg' &&
+        img.type !== 'image/png' &&
+        img.type !== 'image/webp' &&
+        img.type !== 'image/gif'
+      ) {
+        setError(`${img.name} format is unsupported.`);
+        files = files.filter((item) => item.name !== img.name);
+        return;
+      } else if (img.size > 1024 * 1024 * 5) {
+        setError(`${img.name} file size is too large.`);
+        files = files.filter((item) => item.name !== img.name);
+        return;
+      }
       const reader = new FileReader();
       reader.readAsDataURL(img);
       reader.onload = (readerEvent) => {
@@ -36,6 +51,7 @@ export default function ImagePreview({
           hidden
           ref={imageInputRef}
           onChange={handleImages}
+          accept="image/jpeg,image/png,image/webp,image/gif"
         />
         {images && images.length ? (
           <div className="add_pics_inside1 p0">
