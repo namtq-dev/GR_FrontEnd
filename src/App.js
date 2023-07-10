@@ -8,7 +8,7 @@ import Activate from './pages/home/activate';
 import Reset from './pages/reset';
 import CreatePostPopup from './components/createPostPopup';
 import { useSelector } from 'react-redux';
-import { useEffect, useReducer, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { postReducer } from './reducers/postReducer';
 import axios from 'axios';
 
@@ -20,10 +20,6 @@ function App() {
     posts: [],
     error: '',
   });
-
-  useEffect(() => {
-    getAllPosts();
-  }, []);
 
   const getAllPosts = async () => {
     try {
@@ -61,7 +57,11 @@ function App() {
           <Route
             path="/"
             element={
-              <Home setCreatePostVisible={setCreatePostVisible} posts={posts} />
+              <Home
+                setCreatePostVisible={setCreatePostVisible}
+                posts={posts}
+                getAllPosts={getAllPosts}
+              />
             }
             exact
           />

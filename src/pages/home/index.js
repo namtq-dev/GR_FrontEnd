@@ -7,9 +7,14 @@ import CreatePost from '../../components/createPost';
 import './style.css';
 import SendVerification from '../../components/home/sendVerification';
 import Post from '../../components/post';
+import { useEffect } from 'react';
 
-export default function Home({ setCreatePostVisible, posts }) {
+export default function Home({ setCreatePostVisible, posts, getAllPosts }) {
   const { user } = useSelector((state) => ({ ...state }));
+
+  useEffect(() => {
+    getAllPosts();
+  }, []);
 
   return (
     <div className="home">
