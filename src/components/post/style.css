@@ -440,6 +440,31 @@
   place-items: center;
   cursor: pointer;
 }
+
+.comment_error {
+  padding: 0 !important;
+  opacity: 1 !important;
+}
+
+.comment_img_preview {
+  position: relative;
+  margin-top: 5px;
+  margin-left: 40px;
+  width: 160px;
+}
+
+.comment_img_preview img {
+  width: 150px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.comment_img_preview .small_white_circle {
+  top: -6px;
+  right: -4px;
+  transform: scale(0.8);
+}
 /* Create comment */
 
 @media (max-width: 415px) {
