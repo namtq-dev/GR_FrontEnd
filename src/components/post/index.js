@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import './style.css';
-import { Public } from '../../svg';
+import { Dots, Public } from '../../svg';
 
 export default function Post({ post }) {
   return (
@@ -34,6 +34,9 @@ export default function Post({ post }) {
             </div>
           </div>
         </Link>
+        <div className="post_header_right hover1">
+          <Dots color="#828387" />
+        </div>
       </div>
     </div>
   );
