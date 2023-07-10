@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux';
 import RightHome from '../../components/home/right';
 import Stories from '../../components/home/stories';
 import CreatePost from '../../components/createPost';
-import './style.css';
 import SendVerification from '../../components/home/sendVerification';
 import Post from '../../components/post';
 import { useEffect } from 'react';
+import './style.css';
 
 export default function Home({ setCreatePostVisible, posts, getAllPosts }) {
   const { user } = useSelector((state) => ({ ...state }));
