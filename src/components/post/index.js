@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Dots, Public } from '../../svg';
+import ReactsPopup from './reactsPopup';
+import { useState } from 'react';
 import './style.css';
 
 export default function Post({ post }) {
+  const [visible, setVisible] = useState(false);
+
   return (
     <div className="post">
       <div className="post_header">
@@ -74,6 +78,43 @@ export default function Post({ post }) {
           )}
         </>
       )}
+      <div className="post_infos">
+        <div className="reacts_counts">
+          <div className="reacts_count_imgs"></div>
+          <div className="reacts_count_num"></div>
+        </div>
+        <div className="to_right">
+          <div className="comments_count">13 comments</div>
+          <div className="share_count">1 share</div>
+        </div>
+      </div>
+      <div className="post_actions">
+        <ReactsPopup visible={visible} setVisible={setVisible} />
+        <div
+          className="post_action hover1"
+          onMouseOver={() => {
+            setTimeout(() => {
+              setVisible(true);
+            }, 500);
+          }}
+          onMouseLeave={() => {
+            setTimeout(() => {
+              setVisible(false);
+            }, 500);
+          }}
+        >
+          <i className="like_icon"></i>
+          <span>Like</span>
+        </div>
+        <div className="post_action hover1">
+          <i className="comment_icon"></i>
+          <span>Comment</span>
+        </div>
+        <div className="post_action hover1">
+          <i className="share_icon"></i>
+          <span>Share</span>
+        </div>
+      </div>
     </div>
   );
 }
