@@ -17,7 +17,7 @@ export default function ProfilePictureInfos({ profile }) {
         <div className="profile_w_col">
           <div className="profile_name">
             {profile.firstName} {profile.lastName}
-            <div className="othername">other name</div>
+            <div className="othername">(other name)</div>
           </div>
           <div className="profile_friend_count"></div>
           <div className="profile_friend_imgs"></div>

@@ -11,6 +11,7 @@ import ProfileMenu from './profileMenu';
 import PeopleYouMayKnow from './peopleYouMayKnow';
 import CreatePost from '../../components/createPost';
 import GridPost from './gridPost';
+import Post from '../../components/post';
 
 export default function Profile({ setCreatePostVisible }) {
   const navigate = useNavigate();
@@ -55,6 +56,8 @@ export default function Profile({ setCreatePostVisible }) {
     }
   };
 
+  console.log(profile);
+
   return (
     <div className="profile">
       <Header page="profile" />
@@ -78,6 +81,11 @@ export default function Profile({ setCreatePostVisible }) {
                   isMyProfile
                 />
                 <GridPost />
+                <div className="posts">
+                  {profile.posts?.map((post) => (
+                    <Post post={post} user={user} key={post._id} />
+                  ))}
+                </div>
               </div>
             </div>
           </div>

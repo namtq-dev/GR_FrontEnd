@@ -301,6 +301,12 @@
 .grid2 .active {
   color: var(--blue-color);
 }
+
+.othername {
+  color: var(--color-secondary);
+  font-size: 20px;
+}
+
 /* Menu */
 
 @media (max-width: 900px) {
