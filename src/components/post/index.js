@@ -5,9 +5,11 @@ import ReactsPopup from './reactsPopup';
 import { useState } from 'react';
 import CreateComments from './createComments';
 import './style.css';
+import PostMenu from './postMenu';
 
 export default function Post({ post, user }) {
   const [visible, setVisible] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
 
   return (
     <div className="post">
@@ -39,7 +41,10 @@ export default function Post({ post, user }) {
             </div>
           </div>
         </Link>
-        <div className="post_header_right hover1">
+        <div
+          className="post_header_right hover1"
+          onClick={() => setShowMenu((prev) => !prev)}
+        >
           <Dots color="#828387" />
         </div>
       </div>
@@ -120,6 +125,14 @@ export default function Post({ post, user }) {
         <div className="comments_order"></div>
         <CreateComments user={user} />
       </div>
+      {showMenu && (
+        <PostMenu
+          userId={user.id}
+          postUserId={post.user._id}
+          imagesLength={post?.images?.length}
+          setShowMenu={setShowMenu}
+        />
+      )}
     </div>
   );
 }
