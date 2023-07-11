@@ -13,6 +13,7 @@ import CreatePost from '../../components/createPost';
 import GridPost from './gridPost';
 import Post from '../../components/post';
 import Photos from './photos';
+import Friends from './friends';
 
 export default function Profile({ setCreatePostVisible }) {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ export default function Profile({ setCreatePostVisible }) {
             <div className="profile_grid">
               <div className="profile_left">
                 <Photos username={usernameToFind} token={user.loginToken} />
+                <Friends friends={profile.friends} />
               </div>
               <div className="profile_right">
                 {!isVisitor && (
