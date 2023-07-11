@@ -30,6 +30,8 @@ export default function Profile({ setCreatePostVisible }) {
     getProfile();
   }, [usernameToFind]); // get new profile everytime username changes
 
+  const isVisitor = usernameToFind !== user.username;
+
   const getProfile = async () => {
     try {
       dispatch({
@@ -63,8 +65,8 @@ export default function Profile({ setCreatePostVisible }) {
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
-          <Cover cover={profile?.cover} />
-          <ProfilePictureInfos profile={profile} />
+          <Cover cover={profile?.cover} isVisitor={isVisitor} />
+          <ProfilePictureInfos profile={profile} isVisitor={isVisitor} />
           <ProfileMenu />
         </div>
       </div>
@@ -75,16 +77,22 @@ export default function Profile({ setCreatePostVisible }) {
             <div className="profile_grid">
               <div className="profile_left"></div>
               <div className="profile_right">
-                <CreatePost
-                  user={user}
-                  setCreatePostVisible={setCreatePostVisible}
-                  isMyProfile
-                />
+                {!isVisitor && (
+                  <CreatePost
+                    user={user}
+                    setCreatePostVisible={setCreatePostVisible}
+                    isMyProfile
+                  />
+                )}
                 <GridPost />
                 <div className="posts">
-                  {profile.posts?.map((post) => (
-                    <Post post={post} user={user} key={post._id} />
-                  ))}
+                  {profile.posts && profile.posts.length ? (
+                    profile.posts?.map((post) => (
+                      <Post post={post} user={user} key={post._id} />
+                    ))
+                  ) : (
+                    <div className="no_posts">No post available</div>
+                  )}
                 </div>
               </div>
             </div>
