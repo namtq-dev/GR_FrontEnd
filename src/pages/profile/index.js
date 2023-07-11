@@ -1,8 +1,11 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { profileReducer } from '../../reducers/profileReducer';
 import axios from 'axios';
+import Header from '../../components/header';
+import './style.css';
+import Cover from './cover';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -47,5 +50,14 @@ export default function Profile() {
     }
   };
 
-  return <div>Profile</div>;
+  return (
+    <div className="profile">
+      <Header page="profile" />
+      <div className="profile_top">
+        <div className="profile_container">
+          <Cover cover={profile?.cover} />
+        </div>
+      </div>
+    </div>
+  );
 }
