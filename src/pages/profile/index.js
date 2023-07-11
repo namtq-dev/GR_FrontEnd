@@ -7,6 +7,7 @@ import Header from '../../components/header';
 import './style.css';
 import Cover from './cover';
 import ProfilePictureInfos from './profilePictureInfos';
+import ProfileMenu from './profileMenu';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -58,6 +59,7 @@ export default function Profile() {
         <div className="profile_container">
           <Cover cover={profile?.cover} />
           <ProfilePictureInfos profile={profile} />
+          <ProfileMenu />
         </div>
       </div>
     </div>
