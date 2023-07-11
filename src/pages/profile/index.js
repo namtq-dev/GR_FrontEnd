@@ -12,6 +12,7 @@ import PeopleYouMayKnow from './peopleYouMayKnow';
 import CreatePost from '../../components/createPost';
 import GridPost from './gridPost';
 import Post from '../../components/post';
+import Photos from './photos';
 
 export default function Profile({ setCreatePostVisible }) {
   const navigate = useNavigate();
@@ -58,8 +59,6 @@ export default function Profile({ setCreatePostVisible }) {
     }
   };
 
-  console.log(profile);
-
   return (
     <div className="profile">
       <Header page="profile" />
@@ -75,7 +74,9 @@ export default function Profile({ setCreatePostVisible }) {
           <div className="bottom_container">
             <PeopleYouMayKnow />
             <div className="profile_grid">
-              <div className="profile_left"></div>
+              <div className="profile_left">
+                <Photos username={usernameToFind} token={user.loginToken} />
+              </div>
               <div className="profile_right">
                 {!isVisitor && (
                   <CreatePost
@@ -88,7 +89,7 @@ export default function Profile({ setCreatePostVisible }) {
                 <div className="posts">
                   {profile.posts && profile.posts.length ? (
                     profile.posts?.map((post) => (
-                      <Post post={post} user={user} key={post._id} />
+                      <Post post={post} user={user} key={post._id} profile />
                     ))
                   ) : (
                     <div className="no_posts">No post available</div>
