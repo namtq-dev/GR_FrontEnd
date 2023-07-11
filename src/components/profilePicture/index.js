@@ -1,14 +1,42 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import './style.css';
 
 export default function ProfilePicture() {
   const refInput = useRef(null);
+  const [image, setImage] = useState('');
+  const [error, setError] = useState('');
 
-  const handleImage = () => {};
+  const handleImage = (eve) => {
+    let img = eve.target.files[0]; // only 1 image per update
+    if (
+      img.type !== 'image/jpeg' &&
+      img.type !== 'image/png' &&
+      img.type !== 'image/webp' &&
+      img.type !== 'image/gif'
+    ) {
+      setError(`${img.name} format is unsupported.`);
+      return;
+    } else if (img.size > 1024 * 1024 * 5) {
+      setError(`${img.name} file size is too large.`);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    reader.onload = (readerEvent) => {
+      setImage(readerEvent.target.result);
+    };
+  };
 
   return (
     <div className="blur">
-      <input type="file" ref={refInput} hidden onChange={handleImage} />
+      <input
+        type="file"
+        ref={refInput}
+        hidden
+        onChange={handleImage}
+        accept="image/jpeg,image/png,image/webp,image/gif"
+      />
       <div className="post_box picture_box">
         <div className="box_header">
           <div className="small_circle">
@@ -18,7 +46,10 @@ export default function ProfilePicture() {
         </div>
         <div className="update_picture_wrap">
           <div className="update_picture_buttons">
-            <button className="light_blue_btn">
+            <button
+              className="light_blue_btn"
+              onClick={() => refInput.current.click()}
+            >
               <i className="plus_icon filter_blue"></i>
               Upload photo
             </button>
@@ -28,6 +59,14 @@ export default function ProfilePicture() {
             </button>
           </div>
         </div>
+        {error && (
+          <div className="post_error comment_error">
+            <div className="post_error_text">{error}</div>
+            <button className="blue_btn" onClick={() => setError('')}>
+              Try again
+            </button>
+          </div>
+        )}
         <div className="old_pictures_wrap"></div>
       </div>
     </div>
