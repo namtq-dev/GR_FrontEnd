@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import './style.css';
+import UpdateProfilePicture from './updateProfilePicture';
 
 export default function ProfilePicture() {
   const refInput = useRef(null);
@@ -69,6 +70,7 @@ export default function ProfilePicture() {
         )}
         <div className="old_pictures_wrap"></div>
       </div>
+      {image && <UpdateProfilePicture setImage={setImage} />}
     </div>
   );
 }
