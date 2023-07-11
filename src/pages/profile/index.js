@@ -9,8 +9,10 @@ import Cover from './cover';
 import ProfilePictureInfos from './profilePictureInfos';
 import ProfileMenu from './profileMenu';
 import PeopleYouMayKnow from './peopleYouMayKnow';
+import CreatePost from '../../components/createPost';
+import GridPost from './gridPost';
 
-export default function Profile() {
+export default function Profile({ setCreatePostVisible }) {
   const navigate = useNavigate();
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
@@ -67,6 +69,17 @@ export default function Profile() {
         <div className="profile_container">
           <div className="bottom_container">
             <PeopleYouMayKnow />
+            <div className="profile_grid">
+              <div className="profile_left"></div>
+              <div className="profile_right">
+                <CreatePost
+                  user={user}
+                  setCreatePostVisible={setCreatePostVisible}
+                  isMyProfile
+                />
+                <GridPost />
+              </div>
+            </div>
           </div>
         </div>
       </div>
