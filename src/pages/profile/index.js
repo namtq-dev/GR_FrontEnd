@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { profileReducer } from '../../reducers/profileReducer';
 import axios from 'axios';
 import Header from '../../components/header';
@@ -78,6 +78,23 @@ export default function Profile({ setCreatePostVisible }) {
               <div className="profile_left">
                 <Photos username={usernameToFind} token={user.loginToken} />
                 <Friends friends={profile.friends} />
+                <div className="relative_fb_copyright">
+                  <Link to="/">Privacy </Link>
+                  <span>. </span>
+                  <Link to="/">Terms </Link>
+                  <span>. </span>
+                  <Link to="/">Advertising </Link>
+                  <span>. </span>
+                  <Link to="/">
+                    Ad Choices <i className="ad_choices_icon"></i>{' '}
+                  </Link>
+                  <span>. </span>
+                  <Link to="/">Cookies </Link>
+                  <span>. </span>
+                  <Link to="/">More </Link>
+                  <span>. </span> <br />
+                  Aimer © 2023
+                </div>
               </div>
               <div className="profile_right">
                 {!isVisitor && (
