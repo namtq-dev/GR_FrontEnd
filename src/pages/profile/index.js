@@ -6,6 +6,7 @@ import axios from 'axios';
 import Header from '../../components/header';
 import './style.css';
 import Cover from './cover';
+import ProfilePictureInfos from './profilePictureInfos';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -56,6 +57,7 @@ export default function Profile() {
       <div className="profile_top">
         <div className="profile_container">
           <Cover cover={profile?.cover} />
+          <ProfilePictureInfos profile={profile} />
         </div>
       </div>
     </div>
