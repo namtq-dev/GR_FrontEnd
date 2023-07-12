@@ -70,7 +70,13 @@ export default function ProfilePicture() {
         )}
         <div className="old_pictures_wrap"></div>
       </div>
-      {image && <UpdateProfilePicture image={image} setImage={setImage} />}
+      {image && (
+        <UpdateProfilePicture
+          image={image}
+          setImage={setImage}
+          setError={setError}
+        />
+      )}
     </div>
   );
 }

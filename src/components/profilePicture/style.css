@@ -116,3 +116,41 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+.flex_up {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 2rem;
+}
+
+.flex_p_t {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 15px;
+  color: var(--color-secondary);
+  font-size: 17px;
+  border-bottom: 1px solid var(--bg-third);
+}
+
+.update_submit_wrap {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.blue_link {
+  color: var(--blue-color);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.update_submit_wrap button {
+  width: 110px !important;
+}
