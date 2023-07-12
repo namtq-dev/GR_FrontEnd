@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import ProfilePicture from '../../components/profilePicture';
 
-export default function ProfilePictureInfos({ profile, isVisitor }) {
+export default function ProfilePictureInfos({ profile, isVisitor, photos }) {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const avatarRef = useRef(null);
@@ -9,7 +9,11 @@ export default function ProfilePictureInfos({ profile, isVisitor }) {
   return (
     <div className="profile_img_wrap">
       {showUpdate && (
-        <ProfilePicture setShowUpdate={setShowUpdate} avatarRef={avatarRef} />
+        <ProfilePicture
+          setShowUpdate={setShowUpdate}
+          avatarRef={avatarRef}
+          photos={photos}
+        />
       )}
       <div className="profile_w_left">
         <div className="profile_w_img">

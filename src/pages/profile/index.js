@@ -20,7 +20,12 @@ export default function Profile({ setCreatePostVisible }) {
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
 
+  const [photos, setPhotos] = useState({});
+
   let usernameToFind = username === undefined ? user.username : username;
+  const path = `${usernameToFind}/*`;
+  const max = 30;
+  const sort = 'desc';
 
   const [{ loading, profile, error }, dispatch] = useReducer(profileReducer, {
     loading: false,
@@ -47,6 +52,17 @@ export default function Profile({ setCreatePostVisible }) {
       if (data.message === 'User not found.') {
         navigate('/profile');
       } else {
+        try {
+          const images = await axios.post(
+            `${process.env.REACT_APP_BACKEND_URL}/getImages`,
+            { path, max, sort },
+            { headers: { Authorization: `Bearer ${user.loginToken}` } }
+          );
+
+          setPhotos(images.data);
+        } catch (error) {
+          console.log(error);
+        }
         dispatch({
           type: 'PROFILE_SUCCESS',
           payload: data,
@@ -66,7 +82,11 @@ export default function Profile({ setCreatePostVisible }) {
       <div className="profile_top">
         <div className="profile_container">
           <Cover cover={profile?.cover} isVisitor={isVisitor} />
-          <ProfilePictureInfos profile={profile} isVisitor={isVisitor} />
+          <ProfilePictureInfos
+            profile={profile}
+            isVisitor={isVisitor}
+            photos={photos.resources}
+          />
           <ProfileMenu />
         </div>
       </div>
@@ -76,7 +96,7 @@ export default function Profile({ setCreatePostVisible }) {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Photos username={usernameToFind} token={user.loginToken} />
+                <Photos photos={photos} />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">
                   <Link to="/">Privacy </Link>

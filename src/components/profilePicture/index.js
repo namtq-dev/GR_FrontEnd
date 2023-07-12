@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import './style.css';
 import UpdateProfilePicture from './updateProfilePicture';
 
-export default function ProfilePicture({ setShowUpdate, avatarRef }) {
+export default function ProfilePicture({ setShowUpdate, avatarRef, photos }) {
   const refInput = useRef(null);
   const [image, setImage] = useState('');
   const [error, setError] = useState('');
