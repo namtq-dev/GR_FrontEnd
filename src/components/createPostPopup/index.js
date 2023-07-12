@@ -58,11 +58,7 @@ export default function CreatePostPopup({ user, setCreatePostVisible }) {
         formData.append('file', img);
       });
 
-      const uploadResponse = await uploadImages(
-        formData,
-        path,
-        user.loginToken
-      );
+      const uploadResponse = await uploadImages(formData, user.loginToken);
       const response = await createPost(
         null,
         null,
