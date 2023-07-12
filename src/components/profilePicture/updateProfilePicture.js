@@ -1,19 +1,29 @@
 import { useCallback, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from '../../helpers/getCroppedImg';
 import { uploadImages } from '../../helpers/uploadImages';
 import { updateAvatar } from '../../helpers/user';
 import { createPost } from '../../helpers/post';
+import PulseLoader from 'react-spinners/PulseLoader';
+import Cookies from 'js-cookie';
 
-export default function UpdateProfilePicture({ image, setImage, setError }) {
+export default function UpdateProfilePicture({
+  image,
+  setImage,
+  setError,
+  setShowUpdate,
+  avatarRef,
+}) {
   const [description, setDescription] = useState('');
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const slider = useRef(null);
   const { user } = useSelector((state) => ({ ...state }));
+  const dispatch = useDispatch();
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     setCroppedAreaPixels(croppedAreaPixels);
@@ -48,6 +58,7 @@ export default function UpdateProfilePicture({ image, setImage, setError }) {
 
   const updateProfilePicture = async () => {
     try {
+      setLoading(true);
       let img = await getCroppedImage();
       let blob = await fetch(img).then((data) => data.blob()); // change image url to blob
 
@@ -71,15 +82,28 @@ export default function UpdateProfilePicture({ image, setImage, setError }) {
           user.loginToken
         );
 
+        setLoading(false);
         if (newPost === 'OK') {
-          return;
+          avatarRef.current.style.backgroundImage = `url(${response[0].url})`;
+          dispatch({
+            type: 'UPDATE_AVATAR',
+            payload: response[0].url,
+          });
+          Cookies.set(
+            'user',
+            JSON.stringify({ ...user, picture: response[0].url })
+          );
+          setShowUpdate(false);
+          setImage('');
         } else {
           setError(newPost);
         }
       } else {
+        setLoading(false);
         setError(newProfilePicRes);
       }
     } catch (error) {
+      setLoading(false);
       setError(error.response.data.error);
     }
   };
@@ -147,9 +171,15 @@ export default function UpdateProfilePicture({ image, setImage, setError }) {
         Your profile picture is public
       </div>
       <div className="update_submit_wrap">
-        <div className="blue_link">Cancel</div>
-        <button className="blue_btn" onClick={() => updateProfilePicture()}>
-          Save
+        <div className="blue_link" onClick={() => setImage('')}>
+          Cancel
+        </div>
+        <button
+          className="blue_btn"
+          disabled={loading}
+          onClick={() => updateProfilePicture()}
+        >
+          {loading ? <PulseLoader color="#fff" size={5} /> : 'Save'}
         </button>
       </div>
     </div>
