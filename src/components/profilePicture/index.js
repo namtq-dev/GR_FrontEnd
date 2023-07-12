@@ -1,9 +1,12 @@
 import { useRef, useState } from 'react';
 import './style.css';
 import UpdateProfilePicture from './updateProfilePicture';
+import { useSelector } from 'react-redux';
 
 export default function ProfilePicture({ setShowUpdate, avatarRef, photos }) {
   const refInput = useRef(null);
+  const { user } = useSelector((state) => ({ ...state }));
+
   const [image, setImage] = useState('');
   const [error, setError] = useState('');
 
@@ -68,7 +71,38 @@ export default function ProfilePicture({ setShowUpdate, avatarRef, photos }) {
             </button>
           </div>
         )}
-        <div className="old_pictures_wrap"></div>
+        <div className="old_pictures_wrap scrollbar">
+          <h4>Your profile pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) => img.folder === `${user.username}/profilePictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  alt=""
+                  onClick={() => setImage(photo.secure_url)}
+                />
+              ))}
+          </div>
+          <h4>Other pictures</h4>
+          <div className="old_pictures">
+            {photos
+              .filter(
+                (img) => img.folder !== `${user.username}/profilePictures`
+              )
+              .map((photo) => (
+                <img
+                  src={photo.secure_url}
+                  key={photo.public_id}
+                  alt=""
+                  onClick={() => setImage(photo.secure_url)}
+                />
+              ))}
+          </div>
+        </div>
       </div>
       {image && (
         <UpdateProfilePicture
