@@ -3,6 +3,7 @@ export default function UpdateBio({
   handleBioChange,
   charactersLeft,
   setShowBioUpdate,
+  updateDetails,
 }) {
   return (
     <div className="add_bio_wrap">
@@ -23,7 +24,9 @@ export default function UpdateBio({
           <button className="gray_btn" onClick={() => setShowBioUpdate(false)}>
             Cancel
           </button>
-          <button className="blue_btn">Save</button>
+          <button className="blue_btn" onClick={() => updateDetails()}>
+            Save
+          </button>
         </div>
       </div>
     </div>

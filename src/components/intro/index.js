@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './style.css';
 import UpdateBio from './updateBio';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-export default function Intro({ details, isVisitor }) {
+export default function Intro({ oldDetails, isVisitor }) {
+  const [details, setDetails] = useState(oldDetails);
   const initialInfos = {
-    bio: details?.bio ? details.bio : 'Wanna know more about me?',
+    bio: details?.bio ? details.bio : '',
     otherName: details?.otherName ? details.otherName : '',
-    job: details?.job ? details.job : 'Doctor',
-    workplace: details?.workplace ? details.workplace : 'Google',
-    highSchool: details?.highSchool ? details.highSchool : 'PBC High School',
-    college: details?.college ? details.college : 'HUST',
-    currentCity: details?.currentCity ? details.currentCity : 'Ha Noi',
-    hometown: details?.hometown ? details.hometown : 'Ha Tinh',
-    relationship: details?.relationship ? details.relationship : 'Single',
-    instagram: details?.instagram ? details.instagram : 'kiddos_jk',
+    job: details?.job ? details.job : '',
+    workplace: details?.workplace ? details.workplace : '',
+    highSchool: details?.highSchool ? details.highSchool : '',
+    college: details?.college ? details.college : '',
+    currentCity: details?.currentCity ? details.currentCity : '',
+    hometown: details?.hometown ? details.hometown : '',
+    relationship: details?.relationship ? details.relationship : '',
+    instagram: details?.instagram ? details.instagram : '',
   };
+
+  const { user } = useSelector((state) => ({ ...state }));
 
   const [infos, setInfos] = useState(initialInfos);
   const [showBioUpdate, setShowBioUpdate] = useState(false);
@@ -22,17 +27,39 @@ export default function Intro({ details, isVisitor }) {
     infos?.bio ? 100 - infos.bio.length : 100
   );
 
+  useEffect(() => {
+    setDetails(oldDetails);
+  }, [oldDetails]);
+
   const handleBioChange = (eve) => {
     setInfos({ ...infos, bio: eve.target.value });
     setCharactersLeft(100 - eve.target.value.length);
   };
 
+  const updateDetails = async () => {
+    try {
+      const { data } = await axios.patch(
+        `${process.env.REACT_APP_BACKEND_URL}/updateDetails`,
+        { infos },
+        {
+          headers: {
+            Authorization: `Bearer ${user.loginToken}`,
+          },
+        }
+      );
+      setShowBioUpdate(false);
+      setDetails(data);
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   return (
     <div className="profile_card">
       <div className="profile_card_header">Intro</div>
-      {infos?.bio && !showBioUpdate && (
+      {details?.bio && !showBioUpdate && (
         <div className="info_col">
-          <span className="info_text">{infos.bio}</span>
+          <span className="info_text">{details.bio}</span>
           {!isVisitor && (
             <button
               className="gray_btn hover1"
@@ -43,71 +70,80 @@ export default function Intro({ details, isVisitor }) {
           )}
         </div>
       )}
+      {!details?.bio && !showBioUpdate && !isVisitor && (
+        <button
+          className="gray_btn hover1 w100"
+          onClick={() => setShowBioUpdate(true)}
+        >
+          Add Bio
+        </button>
+      )}
       {showBioUpdate && (
         <UpdateBio
           infos={infos}
           charactersLeft={charactersLeft}
           setShowBioUpdate={setShowBioUpdate}
           handleBioChange={handleBioChange}
+          updateDetails={updateDetails}
         />
       )}
-      {infos.job && infos.workplace ? (
+      {details?.job && details?.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="" />
-          works as {infos.job} at {infos.workplace}
+          works as {details.job} at {details.workplace}
         </div>
-      ) : infos.job && !infos.workplace ? (
+      ) : details?.job && !details?.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="" />
-          works as {infos.job}
+          works as {details.job}
         </div>
       ) : (
-        infos.workplace &&
-        !infos.job && (
+        details?.workplace &&
+        !details?.job && (
           <div className="info_profile">
             <img src="../../../icons/job.png" alt="" />
-            works at {infos.workplace}
+            works at {details.workplace}
           </div>
         )
       )}
-      {infos?.relationship && (
+      {details?.relationship && (
         <div className="info_profile">
           <img src="../../../icons/relationship.png" alt="" />
-          {infos.relationship}
+          {details.relationship}
         </div>
       )}
-      {infos?.college && (
+      {details?.college && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="" />
-          studies at {infos.college}
+          studies at {details.college}
         </div>
       )}
-      {infos?.highSchool && (
+      {details?.highSchool && (
         <div className="info_profile">
           <img src="../../../icons/studies.png" alt="" />
-          studies at {infos.highSchool}
+          studies at {details.highSchool}
         </div>
       )}
-      {infos?.currentCity && (
+      {details?.currentCity && (
         <div className="info_profile">
           <img src="../../../icons/home.png" alt="" />
-          lives in {infos.currentCity}
+          lives in {details.currentCity}
         </div>
       )}
-      {infos?.hometown && (
+      {details?.hometown && (
         <div className="info_profile">
           <img src="../../../icons/home.png" alt="" />
-          from {infos.hometown}
+          from {details.hometown}
         </div>
       )}
-      {infos?.instagram && (
+      {details?.instagram && (
         <div className="info_profile">
           <img src="../../../icons/instagram.png" alt="" />
           <a
-            href={`https://www.instagram.com/${infos.instagram}`}
+            href={`https://www.instagram.com/${details.instagram}`}
             target="_blank"
           >
-            {infos.instagram}
+            {details.instagram}
           </a>
         </div>
       )}
