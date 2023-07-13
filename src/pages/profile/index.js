@@ -14,6 +14,7 @@ import GridPost from './gridPost';
 import Post from '../../components/post';
 import Photos from './photos';
 import Friends from './friends';
+import Intro from '../../components/intro';
 
 export default function Profile({ setCreatePostVisible }) {
   const navigate = useNavigate();
@@ -100,6 +101,7 @@ export default function Profile({ setCreatePostVisible }) {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
+                <Intro details={profile.details} />
                 <Photos photos={photos} />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">
