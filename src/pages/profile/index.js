@@ -101,7 +101,7 @@ export default function Profile({ setCreatePostVisible }) {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Intro details={profile.details} />
+                <Intro details={profile.details} isVisitor={isVisitor} />
                 <Photos photos={photos} />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">

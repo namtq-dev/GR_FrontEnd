@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './style.css';
+import UpdateBio from './updateBio';
 
-export default function Intro({ details }) {
+export default function Intro({ details, isVisitor }) {
   const initialInfos = {
-    bio: details?.bio ? details.bio : '',
+    bio: details?.bio ? details.bio : 'Wanna know more about me?',
     otherName: details?.otherName ? details.otherName : '',
     job: details?.job ? details.job : 'Doctor',
     workplace: details?.workplace ? details.workplace : 'Google',
@@ -16,10 +17,40 @@ export default function Intro({ details }) {
   };
 
   const [infos, setInfos] = useState(initialInfos);
+  const [showBioUpdate, setShowBioUpdate] = useState(false);
+  const [charactersLeft, setCharactersLeft] = useState(
+    infos?.bio ? 100 - infos.bio.length : 100
+  );
+
+  const handleBioChange = (eve) => {
+    setInfos({ ...infos, bio: eve.target.value });
+    setCharactersLeft(100 - eve.target.value.length);
+  };
 
   return (
     <div className="profile_card">
       <div className="profile_card_header">Intro</div>
+      {infos?.bio && !showBioUpdate && (
+        <div className="info_col">
+          <span className="info_text">{infos.bio}</span>
+          {!isVisitor && (
+            <button
+              className="gray_btn hover1"
+              onClick={() => setShowBioUpdate(true)}
+            >
+              Edit bio
+            </button>
+          )}
+        </div>
+      )}
+      {showBioUpdate && (
+        <UpdateBio
+          infos={infos}
+          charactersLeft={charactersLeft}
+          setShowBioUpdate={setShowBioUpdate}
+          handleBioChange={handleBioChange}
+        />
+      )}
       {infos.job && infos.workplace ? (
         <div className="info_profile">
           <img src="../../../icons/job.png" alt="" />
@@ -79,6 +110,15 @@ export default function Intro({ details }) {
             {infos.instagram}
           </a>
         </div>
+      )}
+      {!isVisitor && (
+        <button className="gray_btn hover1 w100">Edit details</button>
+      )}
+      {!isVisitor && (
+        <button className="gray_btn hover1 w100">Add hobbies</button>
+      )}
+      {!isVisitor && (
+        <button className="gray_btn hover1 w100">Add featured</button>
       )}
     </div>
   );
