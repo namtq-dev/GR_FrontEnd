@@ -104,7 +104,7 @@ export default function UpdateProfilePicture({
       }
     } catch (error) {
       setLoading(false);
-      setError(error.response.data.error);
+      setError(error.response.data.message);
     }
   };
 
