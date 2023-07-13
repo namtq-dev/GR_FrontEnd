@@ -1,13 +1,24 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import useClickOutside from '../../helpers/clickOutside';
+import Cropper from 'react-easy-crop';
+import getCroppedImg from '../../helpers/getCroppedImg';
 
 export default function Cover({ cover, isVisitor }) {
   const [showCoverMenu, setShowCoverMenu] = useState(false);
   const [coverPicture, setCoverPicture] = useState('');
   const [error, setError] = useState('');
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [coverWidth, setCoverWidth] = useState();
 
   const menuRef = useRef(null);
   const inputRef = useRef(null);
+  const coverRef = useRef(null);
+
+  useEffect(() => {
+    setCoverWidth(coverRef.current.clientWidth);
+  }, [window.innerWidth]);
 
   useClickOutside(menuRef, () => {
     setShowCoverMenu(false);
@@ -35,8 +46,42 @@ export default function Cover({ cover, isVisitor }) {
     };
   };
 
+  const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  }, []);
+
+  const getCroppedImage = useCallback(
+    async (isJustShow) => {
+      try {
+        const img = await getCroppedImg(coverPicture, croppedAreaPixels);
+        if (isJustShow) {
+          setZoom(1);
+          setCrop({ x: 0, y: 0 });
+          setCoverPicture(img);
+        } else {
+          return img;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [croppedAreaPixels]
+  );
+
   return (
-    <div className="profile_cover">
+    <div className="profile_cover" ref={coverRef}>
+      {coverPicture && (
+        <div className="save_changes_cover">
+          <div className="save_changes_left">
+            <i className="public_icon"></i>
+            Your cover photo is public
+          </div>
+          <div className="save_changes_right">
+            <button className="blue_btn opacity_btn">Cancel</button>
+            <button className="blue_btn">Save changes</button>
+          </div>
+        </div>
+      )}
       <input
         type="file"
         ref={inputRef}
@@ -50,6 +95,21 @@ export default function Cover({ cover, isVisitor }) {
           <button className="blue_btn" onClick={() => setError('')}>
             Try again
           </button>
+        </div>
+      )}
+      {coverPicture && (
+        <div className="cover_cropper">
+          <Cropper
+            image={coverPicture}
+            crop={crop}
+            zoom={zoom}
+            aspect={coverWidth / 350}
+            onCropChange={setCrop}
+            onCropComplete={onCropComplete}
+            onZoomChange={setZoom}
+            showGrid={true}
+            objectFit="horizontal-cover"
+          />
         </div>
       )}
       {cover && <img src={cover} className="cover" alt="" />}
