@@ -438,6 +438,32 @@
 .save_changes_right button:last-of-type {
   width: 160px;
 }
+
+.select_covers_box {
+  width: 570px !important;
+  max-width: 80vw;
+}
+
+.select_covers_box_links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 5px 15px;
+}
+
+.select_covers_box_link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 5px 0 10px 0;
+  cursor: pointer;
+}
+
+.select_covers_box_link:first-of-type {
+  color: var(--blue-color);
+  border-bottom: 3px solid var(--blue-color);
+}
 /* Cover picture */
 
 /* Profile card */

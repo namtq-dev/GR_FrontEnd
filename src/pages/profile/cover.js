@@ -7,9 +7,11 @@ import { useSelector } from 'react-redux';
 import { uploadImages } from '../../helpers/uploadImages';
 import { createPost } from '../../helpers/post';
 import PulseLoader from 'react-spinners/PulseLoader';
+import OldCovers from './oldCovers';
 
-export default function Cover({ cover, isVisitor }) {
+export default function Cover({ cover, isVisitor, photos }) {
   const [showCoverMenu, setShowCoverMenu] = useState(false);
+  const [showOldCovers, setShowOldCovers] = useState(false);
   const [coverPicture, setCoverPicture] = useState('');
   const [error, setError] = useState('');
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -185,7 +187,10 @@ export default function Cover({ cover, isVisitor }) {
           </div>
           {showCoverMenu && (
             <div className="open_cover_menu" ref={menuRef}>
-              <div className="open_cover_menu_item hover1">
+              <div
+                className="open_cover_menu_item hover1"
+                onClick={() => setShowOldCovers(true)}
+              >
                 <i className="photo_icon"></i>
                 Select Photo
               </div>
@@ -199,6 +204,13 @@ export default function Cover({ cover, isVisitor }) {
             </div>
           )}
         </div>
+      )}
+      {showOldCovers && (
+        <OldCovers
+          photos={photos}
+          setCoverPicture={setCoverPicture}
+          setShowOldCovers={setShowOldCovers}
+        />
       )}
     </div>
   );
