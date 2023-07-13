@@ -511,7 +511,7 @@
 }
 /* Post Menu */
 
-/* Update avatar post */
+/* Update avatar and cover post */
 .post_profile_wrap {
   position: relative;
   height: 500px;
@@ -528,6 +528,12 @@
   background: var(--bg-third);
 }
 
+.post_updated_bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .post_updated_picture {
   z-index: 1;
   width: 420px;
@@ -536,7 +542,18 @@
   object-fit: cover;
   border: 3px solid var(--bg-primary);
 }
-/* Update avatar post */
+
+.post_cover_wrap {
+  width: 100%;
+  height: 350px;
+}
+
+.post_cover_wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Update avatar and cover post */
 
 @media (max-width: 415px) {
   .post .grid_2 img,
