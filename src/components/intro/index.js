@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import EditDetails from './editDetails';
 
-export default function Intro({ oldDetails, isVisitor }) {
+export default function Intro({ oldDetails, isVisitor, setOtherName }) {
   const [details, setDetails] = useState(oldDetails);
   const initialInfos = {
     bio: details?.bio ? details.bio : '',
@@ -22,7 +22,7 @@ export default function Intro({ oldDetails, isVisitor }) {
 
   const { user } = useSelector((state) => ({ ...state }));
 
-  const [editDetailsVisible, setEditDetailsVisible] = useState(0);
+  const [editDetailsVisible, setEditDetailsVisible] = useState(false);
   const [infos, setInfos] = useState(initialInfos);
   const [showBioUpdate, setShowBioUpdate] = useState(false);
   const [charactersLeft, setCharactersLeft] = useState(
@@ -47,6 +47,7 @@ export default function Intro({ oldDetails, isVisitor }) {
       );
       setShowBioUpdate(false);
       setDetails(data);
+      setOtherName(data?.otherName);
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -156,7 +157,7 @@ export default function Intro({ oldDetails, isVisitor }) {
       {!isVisitor && (
         <button
           className="gray_btn hover1 w100"
-          onClick={() => setEditDetailsVisible(1)}
+          onClick={() => setEditDetailsVisible(true)}
         >
           Edit details
         </button>
@@ -167,6 +168,7 @@ export default function Intro({ oldDetails, isVisitor }) {
           handleChange={handleChange}
           updateDetails={updateDetails}
           infos={infos}
+          setEditDetailsVisible={setEditDetailsVisible}
         />
       )}
       {!isVisitor && (

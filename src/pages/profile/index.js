@@ -22,6 +22,7 @@ export default function Profile({ setCreatePostVisible }) {
   const { user } = useSelector((state) => ({ ...state }));
 
   const [photos, setPhotos] = useState({});
+  const [otherName, setOtherName] = useState();
 
   let usernameToFind = username === undefined ? user.username : username;
   const path = `${usernameToFind}/*`;
@@ -37,6 +38,9 @@ export default function Profile({ setCreatePostVisible }) {
   useEffect(() => {
     getProfile();
   }, [usernameToFind]); // get new profile everytime username changes
+  useEffect(() => {
+    setOtherName(profile?.details?.otherName);
+  }, [profile]);
 
   const isVisitor = usernameToFind !== user.username;
 
@@ -91,6 +95,7 @@ export default function Profile({ setCreatePostVisible }) {
             profile={profile}
             isVisitor={isVisitor}
             photos={photos.resources}
+            otherName={otherName}
           />
           <ProfileMenu />
         </div>
@@ -101,7 +106,11 @@ export default function Profile({ setCreatePostVisible }) {
             <PeopleYouMayKnow />
             <div className="profile_grid">
               <div className="profile_left">
-                <Intro oldDetails={profile.details} isVisitor={isVisitor} />
+                <Intro
+                  oldDetails={profile.details}
+                  isVisitor={isVisitor}
+                  setOtherName={setOtherName}
+                />
                 <Photos photos={photos} />
                 <Friends friends={profile.friends} />
                 <div className="relative_fb_copyright">

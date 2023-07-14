@@ -1,18 +1,28 @@
+import { useRef } from 'react';
 import Detail from './detail';
+import useClickOutside from '../../helpers/clickOutside';
 
 export default function EditDetails({
   details,
   handleChange,
   updateDetails,
   infos,
+  setEditDetailsVisible,
 }) {
-  console.log(infos);
+  const updateDetailsRef = useRef(null);
+
+  useClickOutside(updateDetailsRef, () => {
+    setEditDetailsVisible(false);
+  });
 
   return (
     <div className="blur">
-      <div className="post_box infos_box">
+      <div className="post_box infos_box" ref={updateDetailsRef}>
         <div className="box_header">
-          <div className="small_circle">
+          <div
+            className="small_circle"
+            onClick={() => setEditDetailsVisible(false)}
+          >
             <i className="exit_icon"></i>
           </div>
           <span>Edit details</span>

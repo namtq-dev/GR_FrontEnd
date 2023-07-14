@@ -30,7 +30,7 @@ export default function UpdateBio({
           placeholder={placeholder}
           name={name}
           value={infos?.[name]}
-          maxLength={100}
+          maxLength={detail ? 30 : 100}
           className="textarea_blue details_input"
           onChange={handleChange}
         ></textarea>
@@ -56,7 +56,9 @@ export default function UpdateBio({
             className="blue_btn"
             onClick={() => {
               updateDetails();
-              setShowUpdateDetail(false);
+              if (detail) {
+                setShowUpdateDetail(false);
+              }
             }}
           >
             Save

@@ -1,7 +1,12 @@
 import { useRef, useState } from 'react';
 import ProfilePicture from '../../components/profilePicture';
 
-export default function ProfilePictureInfos({ profile, isVisitor, photos }) {
+export default function ProfilePictureInfos({
+  profile,
+  isVisitor,
+  photos,
+  otherName,
+}) {
   const [showUpdate, setShowUpdate] = useState(false);
 
   const avatarRef = useRef(null);
@@ -37,7 +42,7 @@ export default function ProfilePictureInfos({ profile, isVisitor, photos }) {
         <div className="profile_w_col">
           <div className="profile_name">
             {profile.firstName} {profile.lastName}
-            <div className="othername">(other name)</div>
+            <div className="othername">{!!otherName && `(${otherName})`}</div>
           </div>
           <div className="profile_friend_count"></div>
           <div className="profile_friend_imgs"></div>
