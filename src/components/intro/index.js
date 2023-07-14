@@ -3,6 +3,7 @@ import './style.css';
 import UpdateBio from './updateBio';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import EditDetails from './editDetails';
 
 export default function Intro({ oldDetails, isVisitor }) {
   const [details, setDetails] = useState(oldDetails);
@@ -21,6 +22,7 @@ export default function Intro({ oldDetails, isVisitor }) {
 
   const { user } = useSelector((state) => ({ ...state }));
 
+  const [editDetailsVisible, setEditDetailsVisible] = useState(0);
   const [infos, setInfos] = useState(initialInfos);
   const [showBioUpdate, setShowBioUpdate] = useState(false);
   const [charactersLeft, setCharactersLeft] = useState(
@@ -29,12 +31,8 @@ export default function Intro({ oldDetails, isVisitor }) {
 
   useEffect(() => {
     setDetails(oldDetails);
+    setInfos(oldDetails);
   }, [oldDetails]);
-
-  const handleBioChange = (eve) => {
-    setInfos({ ...infos, bio: eve.target.value });
-    setCharactersLeft(100 - eve.target.value.length);
-  };
 
   const updateDetails = async () => {
     try {
@@ -52,6 +50,12 @@ export default function Intro({ oldDetails, isVisitor }) {
     } catch (error) {
       console.log(error.response.data.message);
     }
+  };
+
+  const handleChange = (eve) => {
+    const { name, value } = eve.target;
+    setInfos({ ...infos, [name]: value });
+    setCharactersLeft(100 - eve.target.value.length);
   };
 
   return (
@@ -83,8 +87,10 @@ export default function Intro({ oldDetails, isVisitor }) {
           infos={infos}
           charactersLeft={charactersLeft}
           setShowBioUpdate={setShowBioUpdate}
-          handleBioChange={handleBioChange}
+          handleChange={handleChange}
           updateDetails={updateDetails}
+          placeholder="Add Bio"
+          name="bio"
         />
       )}
       {details?.job && details?.workplace ? (
@@ -148,7 +154,20 @@ export default function Intro({ oldDetails, isVisitor }) {
         </div>
       )}
       {!isVisitor && (
-        <button className="gray_btn hover1 w100">Edit details</button>
+        <button
+          className="gray_btn hover1 w100"
+          onClick={() => setEditDetailsVisible(1)}
+        >
+          Edit details
+        </button>
+      )}
+      {!!editDetailsVisible && !isVisitor && (
+        <EditDetails
+          details={details}
+          handleChange={handleChange}
+          updateDetails={updateDetails}
+          infos={infos}
+        />
       )}
       {!isVisitor && (
         <button className="gray_btn hover1 w100">Add hobbies</button>
