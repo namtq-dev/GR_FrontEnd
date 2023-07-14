@@ -68,7 +68,7 @@
 }
 
 .infos_box {
-  height: 82vh;
+  height: 650px;
   width: 800px !important;
 }
 
@@ -129,4 +129,10 @@
   margin: 10px 0;
   padding: 0 10px;
   border-radius: 5px;
+}
+
+@media (max-width: 810px) {
+  .infos_box {
+    width: 96% !important;
+  }
 }

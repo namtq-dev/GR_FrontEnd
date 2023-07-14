@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Picker from 'emoji-picker-react';
+import { useMediaQuery } from 'react-responsive';
 
 export default function EmojiPickerAndBackground({
   text,
@@ -56,6 +57,10 @@ export default function EmojiPickerAndBackground({
     setBackground('');
   };
 
+  const smallScreen = useMediaQuery({
+    query: '(max-width:550px)',
+  });
+
   return (
     <div className={type2 ? 'image_input' : ''}>
       <div className={!type2 ? 'flex_center' : ''} ref={bgRef}>
@@ -64,7 +69,9 @@ export default function EmojiPickerAndBackground({
           maxLength="250"
           value={text}
           placeholder={`What's on your mind, ${user?.firstName}?`}
-          className={`post_input ${type2 && 'post_input2'}`}
+          className={`post_input ${type2 && 'post_input2'} ${
+            smallScreen && !background && 'l0'
+          }`}
           onChange={(eve) => setText(eve.target.value)}
           style={{
             paddingTop: `${
