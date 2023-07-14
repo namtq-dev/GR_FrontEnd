@@ -171,6 +171,13 @@
   }
 }
 
+@media (max-width: 400px) {
+  .createPost,
+  .post {
+    margin-top: 1rem;
+  }
+}
+
 /* Activate popup */
 .popup {
   background: var(--bg-primary);
