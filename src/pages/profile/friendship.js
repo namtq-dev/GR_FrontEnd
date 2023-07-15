@@ -1,15 +1,29 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import useClickOutside from '../../helpers/clickOutside';
+import { addFriend } from '../../helpers/user';
 
-export default function Friendship({ friendship }) {
+export default function Friendship({ oldFriendship, profileId }) {
+  const { user } = useSelector((state) => ({ ...state }));
+
   const [friendsMenu, setFriendsMenu] = useState(false);
   const [responseMenu, setResponseMenu] = useState(false);
+  const [friendship, setFriendship] = useState(oldFriendship);
 
   const friendsMenuRef = useRef(null);
   const responseMenuRef = useRef(null);
 
   useClickOutside(friendsMenuRef, () => setFriendsMenu(false));
   useClickOutside(responseMenuRef, () => setResponseMenu(false));
+
+  useEffect(() => {
+    setFriendship(oldFriendship);
+  }, [oldFriendship]);
+
+  const addFriendHandler = async () => {
+    setFriendship({ ...friendship, requestSent: true, following: true });
+    await addFriend(profileId, user.loginToken);
+  };
 
   return (
     <div className="friendship">
@@ -50,7 +64,7 @@ export default function Friendship({ friendship }) {
       ) : (
         !friendship?.requestSent &&
         !friendship?.requestReceived && (
-          <button className="blue_btn">
+          <button className="blue_btn" onClick={addFriendHandler}>
             <img src="../../../icons/addFriend.png" alt="" className="invert" />
             <span>Add friend</span>
           </button>
@@ -96,7 +110,7 @@ export default function Friendship({ friendship }) {
         <img
           src="../../../icons/message.png"
           alt=""
-          className={friendship?.friends && 'invert'}
+          className={friendship?.friends ? 'invert' : ''}
         />
         <span>Message</span>
       </button>

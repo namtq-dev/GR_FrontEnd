@@ -40,6 +40,7 @@ export const addFriend = async (id, token) => {
   try {
     const { data } = await axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/addFriend/${id}`,
+      {},
       {
         headers: { Authorization: `Bearer ${token}` },
       }
