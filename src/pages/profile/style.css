@@ -501,6 +501,9 @@
   .bottom_container {
     padding: 5px;
   }
+  .friendship {
+    transform: translateY(-4rem);
+  }
 }
 
 @media (max-width: 650px) {
@@ -513,4 +516,15 @@
   .update_cover_wrapper {
     bottom: 3rem;
   }
+}
+
+.friendship {
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.friendship .blue_btn {
+  height: 35px;
 }
