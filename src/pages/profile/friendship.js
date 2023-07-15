@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useClickOutside from '../../helpers/clickOutside';
-import { addFriend, cancelFriendRequest } from '../../helpers/user';
+import {
+  addFriend,
+  cancelFriendRequest,
+  follow,
+  unfollow,
+} from '../../helpers/user';
 
 export default function Friendship({ oldFriendship, profileId }) {
   const { user } = useSelector((state) => ({ ...state }));
@@ -30,6 +35,16 @@ export default function Friendship({ oldFriendship, profileId }) {
     await cancelFriendRequest(profileId, user.loginToken);
   };
 
+  const followHandler = async () => {
+    setFriendship({ ...friendship, following: true });
+    await follow(profileId, user.loginToken);
+  };
+
+  const unfollowHandler = async () => {
+    setFriendship({ ...friendship, following: false });
+    await unfollow(profileId, user.loginToken);
+  };
+
   return (
     <div className="friendship">
       {friendship?.friends ? (
@@ -49,12 +64,18 @@ export default function Friendship({ oldFriendship, profileId }) {
                 Edit friend list
               </div>
               {friendship?.following ? (
-                <div className="open_cover_menu_item hover1">
+                <div
+                  className="open_cover_menu_item hover1"
+                  onClick={unfollowHandler}
+                >
                   <img src="../../../icons/unfollowOutlined.png" alt="" />
                   Unfollow
                 </div>
               ) : (
-                <div className="open_cover_menu_item hover1">
+                <div
+                  className="open_cover_menu_item hover1"
+                  onClick={followHandler}
+                >
                   <img src="../../../icons/follow.png" alt="" />
                   Follow
                 </div>
@@ -101,12 +122,12 @@ export default function Friendship({ oldFriendship, profileId }) {
         )
       )}
       {friendship?.following ? (
-        <button className="gray_btn">
+        <button className="gray_btn" onClick={unfollowHandler}>
           <img src="../../../icons/follow.png" alt="" />
           <span>Following</span>
         </button>
       ) : (
-        <button className="blue_btn">
+        <button className="blue_btn" onClick={followHandler}>
           <img src="../../../icons/follow.png" alt="" className="invert" />
           <span>Follow</span>
         </button>
