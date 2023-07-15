@@ -504,6 +504,9 @@
   .friendship {
     transform: translateY(-4rem);
   }
+  .othername {
+    transform: translateY(-10px);
+  }
 }
 
 @media (max-width: 650px) {
@@ -518,6 +521,16 @@
   }
 }
 
+@media (max-width: 405px) {
+  .friendship {
+    flex-direction: column;
+  }
+
+  .friendship .blue_btn {
+    height: 34px !important;
+  }
+}
+
 .friendship {
   z-index: 9;
   display: flex;
@@ -527,4 +540,10 @@
 
 .friendship .blue_btn {
   height: 35px;
+}
+
+@media (min-width: 900px) {
+  .friendship {
+    transform: translateX(-2rem);
+  }
 }
