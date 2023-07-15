@@ -46,9 +46,7 @@ export const addFriend = async (id, token) => {
       }
     );
 
-    if (
-      data.response.message === 'Your friend request has been sent successfully'
-    ) {
+    if (data.message === 'Your friend request has been sent successfully') {
       return 'OK';
     }
   } catch (error) {
@@ -65,9 +63,7 @@ export const cancelFriendRequest = async (id, token) => {
       }
     );
 
-    if (
-      data.response.message === 'Your cancel request has been sent successfully'
-    ) {
+    if (data.message === 'Your cancel request has been sent successfully') {
       return 'OK';
     }
   } catch (error) {
@@ -79,14 +75,13 @@ export const follow = async (id, token) => {
   try {
     const { data } = await axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/follow/${id}`,
+      {},
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
 
-    if (
-      data.response.message === 'Your follow request has been sent successfully'
-    ) {
+    if (data.message === 'Your follow request has been sent successfully') {
       return 'OK';
     }
   } catch (error) {
@@ -98,15 +93,13 @@ export const unfollow = async (id, token) => {
   try {
     const { data } = await axios.patch(
       `${process.env.REACT_APP_BACKEND_URL}/unfollow/${id}`,
+      {},
       {
         headers: { Authorization: `Bearer ${token}` },
       }
     );
 
-    if (
-      data.response.message ===
-      'Your unfollow request has been sent successfully'
-    ) {
+    if (data.message === 'Your unfollow request has been sent successfully') {
       return 'OK';
     }
   } catch (error) {
@@ -123,10 +116,7 @@ export const acceptFriend = async (id, token) => {
       }
     );
 
-    if (
-      data.response.message ===
-      'You have successfully become friend with this user'
-    ) {
+    if (data.message === 'You have successfully become friend with this user') {
       return 'OK';
     }
   } catch (error) {
@@ -143,7 +133,7 @@ export const unfriend = async (id, token) => {
       }
     );
 
-    if (data.response.message === 'You have successfully unfriend this user') {
+    if (data.message === 'You have successfully unfriend this user') {
       return 'OK';
     }
   } catch (error) {
@@ -160,9 +150,7 @@ export const deleteFriendRequest = async (id, token) => {
       }
     );
 
-    if (
-      data.response.message === 'You have successfully decline a friend request'
-    ) {
+    if (data.message === 'You have successfully decline a friend request') {
       return 'OK';
     }
   } catch (error) {
