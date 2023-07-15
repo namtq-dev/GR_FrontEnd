@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useClickOutside from '../../helpers/clickOutside';
-import { addFriend } from '../../helpers/user';
+import { addFriend, cancelFriendRequest } from '../../helpers/user';
 
 export default function Friendship({ oldFriendship, profileId }) {
   const { user } = useSelector((state) => ({ ...state }));
@@ -23,6 +23,11 @@ export default function Friendship({ oldFriendship, profileId }) {
   const addFriendHandler = async () => {
     setFriendship({ ...friendship, requestSent: true, following: true });
     await addFriend(profileId, user.loginToken);
+  };
+
+  const cancelFriendRequestHandler = async () => {
+    setFriendship({ ...friendship, requestSent: false, following: false });
+    await cancelFriendRequest(profileId, user.loginToken);
   };
 
   return (
@@ -71,7 +76,7 @@ export default function Friendship({ oldFriendship, profileId }) {
         )
       )}
       {friendship?.requestSent ? (
-        <button className="blue_btn">
+        <button className="blue_btn" onClick={cancelFriendRequestHandler}>
           <img
             src="../../../icons/cancelRequest.png"
             alt=""
