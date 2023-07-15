@@ -14,6 +14,7 @@ export default function Post({ post, user, profile }) {
   const [showMenu, setShowMenu] = useState(false);
   const [reacts, setReacts] = useState();
   const [myReact, setMyReact] = useState();
+  const [totalReacts, setTotalReacts] = useState(0);
 
   useEffect(() => {
     getAllPostReacts();
@@ -32,6 +33,7 @@ export default function Post({ post, user, profile }) {
     const response = await getAllReacts(post._id, user.loginToken);
     setReacts(response.reacts);
     setMyReact(response.myReact);
+    setTotalReacts(response.total);
   };
 
   return (
@@ -123,9 +125,25 @@ export default function Post({ post, user, profile }) {
         </div>
       )}
       <div className="post_infos">
-        <div className="reacts_counts">
-          <div className="reacts_count_imgs"></div>
-          <div className="reacts_count_num"></div>
+        <div className="reacts_count">
+          <div className="reacts_count_imgs">
+            {reacts &&
+              reacts
+                .slice(0, 3)
+                .map(
+                  (react, i) =>
+                    react.count > 0 && (
+                      <img
+                        src={`../../../reacts/${react.react}.svg`}
+                        key={i}
+                        alt=""
+                      />
+                    )
+                )}
+          </div>
+          <div className="reacts_count_num">
+            {totalReacts > 0 && totalReacts}
+          </div>
         </div>
         <div className="to_right">
           <div className="comments_count">13 comments</div>
