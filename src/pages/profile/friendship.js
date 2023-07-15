@@ -5,6 +5,7 @@ import {
   acceptFriend,
   addFriend,
   cancelFriendRequest,
+  deleteFriendRequest,
   follow,
   unfollow,
   unfriend,
@@ -67,6 +68,17 @@ export default function Friendship({ oldFriendship, profileId }) {
       requestReceived: false,
     });
     await unfriend(profileId, user.loginToken);
+  };
+
+  const deleteFriendRequestHandler = async () => {
+    setFriendship({
+      ...friendship,
+      friends: false,
+      following: false,
+      requestSent: false,
+      requestReceived: false,
+    });
+    await deleteFriendRequest(profileId, user.loginToken);
   };
 
   return (
@@ -147,7 +159,12 @@ export default function Friendship({ oldFriendship, profileId }) {
                 >
                   Accept
                 </div>
-                <div className="open_cover_menu_item hover1">Decline</div>
+                <div
+                  className="open_cover_menu_item hover1"
+                  onClick={deleteFriendRequestHandler}
+                >
+                  Decline
+                </div>
               </div>
             )}
           </div>
