@@ -15,10 +15,8 @@ export default function Post({ post, user, profile }) {
   const [reacts, setReacts] = useState();
   const [myReact, setMyReact] = useState();
 
-  useEffect(async () => {
-    const response = await getAllReacts(post._id, user.loginToken);
-    setReacts(response.reacts);
-    setMyReact(response.myReact);
+  useEffect(() => {
+    getAllPostReacts();
   }, [post]);
 
   const reactHandler = async (react) => {
@@ -28,6 +26,12 @@ export default function Post({ post, user, profile }) {
     } else {
       setMyReact(react);
     }
+  };
+
+  const getAllPostReacts = async () => {
+    const response = await getAllReacts(post._id, user.loginToken);
+    setReacts(response.reacts);
+    setMyReact(response.myReact);
   };
 
   return (
