@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useClickOutside from '../../helpers/clickOutside';
 import {
+  acceptFriend,
   addFriend,
   cancelFriendRequest,
   follow,
   unfollow,
+  unfriend,
 } from '../../helpers/user';
 
 export default function Friendship({ oldFriendship, profileId }) {
@@ -45,6 +47,28 @@ export default function Friendship({ oldFriendship, profileId }) {
     await unfollow(profileId, user.loginToken);
   };
 
+  const acceptFriendHandler = async () => {
+    setFriendship({
+      ...friendship,
+      friends: true,
+      following: true,
+      requestSent: false,
+      requestReceived: false,
+    });
+    await acceptFriend(profileId, user.loginToken);
+  };
+
+  const unfriendHandler = async () => {
+    setFriendship({
+      ...friendship,
+      friends: false,
+      following: false,
+      requestSent: false,
+      requestReceived: false,
+    });
+    await unfriend(profileId, user.loginToken);
+  };
+
   return (
     <div className="friendship">
       {friendship?.friends ? (
@@ -80,7 +104,10 @@ export default function Friendship({ oldFriendship, profileId }) {
                   Follow
                 </div>
               )}
-              <div className="open_cover_menu_item hover1">
+              <div
+                className="open_cover_menu_item hover1"
+                onClick={unfriendHandler}
+              >
                 <i className="unfriend_outlined_icon"></i>
                 Unfriend
               </div>
@@ -114,7 +141,12 @@ export default function Friendship({ oldFriendship, profileId }) {
             </button>
             {responseMenu && (
               <div className="open_cover_menu" ref={responseMenuRef}>
-                <div className="open_cover_menu_item hover1">Accept</div>
+                <div
+                  className="open_cover_menu_item hover1"
+                  onClick={acceptFriendHandler}
+                >
+                  Accept
+                </div>
                 <div className="open_cover_menu_item hover1">Decline</div>
               </div>
             )}
