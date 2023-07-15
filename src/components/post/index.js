@@ -7,6 +7,7 @@ import CreateComments from './createComments';
 import './style.css';
 import PostMenu from './postMenu';
 import { getAllReacts } from '../../helpers/post';
+import { reactPost } from '../../helpers/post';
 
 export default function Post({ post, user, profile }) {
   const [visible, setVisible] = useState(false);
@@ -19,6 +20,15 @@ export default function Post({ post, user, profile }) {
     setReacts(response.reacts);
     setMyReact(response.myReact);
   }, [post]);
+
+  const reactHandler = async (react) => {
+    reactPost(post._id, react, user.loginToken);
+    if (myReact === react) {
+      setMyReact();
+    } else {
+      setMyReact(react);
+    }
+  };
 
   return (
     <div className="post" style={{ width: `${profile && '100%'}` }}>
@@ -122,7 +132,7 @@ export default function Post({ post, user, profile }) {
         <ReactsPopup
           visible={visible}
           setVisible={setVisible}
-          postId={post._id}
+          reactHandler={reactHandler}
         />
         <div
           className="post_action hover1"
@@ -136,6 +146,7 @@ export default function Post({ post, user, profile }) {
               setVisible(false);
             }, 500);
           }}
+          onClick={() => reactHandler(myReact ? myReact : 'like')}
         >
           {myReact ? (
             <img
@@ -147,7 +158,27 @@ export default function Post({ post, user, profile }) {
           ) : (
             <i className="like_icon"></i>
           )}
-          <span>Like</span>
+          <span
+            style={{
+              color: `${
+                myReact === 'like'
+                  ? '#4267b2'
+                  : myReact === 'love'
+                  ? '#f63459'
+                  : myReact === 'haha'
+                  ? '#f7b125'
+                  : myReact === 'sad'
+                  ? '#f7b125'
+                  : myReact === 'wow'
+                  ? '#f7b125'
+                  : myReact === 'angry'
+                  ? '#e4605a'
+                  : ''
+              }`,
+            }}
+          >
+            {myReact ? myReact : 'Like'}
+          </span>
         </div>
         <div className="post_action hover1">
           <i className="comment_icon"></i>
