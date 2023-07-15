@@ -24,7 +24,25 @@ export default function Post({ post, user, profile }) {
     reactPost(post._id, react, user.loginToken);
     if (myReact === react) {
       setMyReact();
+
+      let type = reacts.findIndex((reactType) => reactType.react === myReact);
+      if (type !== -1) {
+        setReacts([...reacts, reacts[type].count--]);
+        setTotalReacts((prev) => --prev);
+      }
     } else {
+      let type1 = reacts.findIndex((reactType) => reactType.react === react);
+      if (type1 !== -1) {
+        setReacts([...reacts, reacts[type1].count++]);
+        setTotalReacts((prev) => ++prev);
+      }
+
+      let type2 = reacts.findIndex((reactType) => reactType.react === myReact);
+      if (type2 !== -1) {
+        setReacts([...reacts, reacts[type2].count--]);
+        setTotalReacts((prev) => --prev);
+      }
+
       setMyReact(react);
     }
   };
@@ -129,6 +147,9 @@ export default function Post({ post, user, profile }) {
           <div className="reacts_count_imgs">
             {reacts &&
               reacts
+                .sort((react1, react2) => {
+                  return react2.count - react1.count;
+                })
                 .slice(0, 3)
                 .map(
                   (react, i) =>
