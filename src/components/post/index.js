@@ -31,6 +31,8 @@ export default function Post({ post, user, profile }) {
         setTotalReacts((prev) => --prev);
       }
     } else {
+      setMyReact(react);
+
       let type1 = reacts.findIndex((reactType) => reactType.react === react);
       if (type1 !== -1) {
         setReacts([...reacts, reacts[type1].count++]);
@@ -42,8 +44,6 @@ export default function Post({ post, user, profile }) {
         setReacts([...reacts, reacts[type2].count--]);
         setTotalReacts((prev) => --prev);
       }
-
-      setMyReact(react);
     }
   };
 
