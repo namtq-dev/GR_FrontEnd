@@ -2,14 +2,23 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Dots, Public } from '../../svg';
 import ReactsPopup from './reactsPopup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateComments from './createComments';
 import './style.css';
 import PostMenu from './postMenu';
+import { getAllReacts } from '../../helpers/post';
 
 export default function Post({ post, user, profile }) {
   const [visible, setVisible] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [reacts, setReacts] = useState();
+  const [myReact, setMyReact] = useState();
+
+  useEffect(async () => {
+    const response = await getAllReacts(post._id, user.loginToken);
+    setReacts(response.reacts);
+    setMyReact(response.myReact);
+  }, [post]);
 
   return (
     <div className="post" style={{ width: `${profile && '100%'}` }}>
@@ -128,7 +137,16 @@ export default function Post({ post, user, profile }) {
             }, 500);
           }}
         >
-          <i className="like_icon"></i>
+          {myReact ? (
+            <img
+              src={`../../../reacts/${myReact}.svg`}
+              alt=""
+              className="small_react"
+              style={{ width: '18px' }}
+            />
+          ) : (
+            <i className="like_icon"></i>
+          )}
           <span>Like</span>
         </div>
         <div className="post_action hover1">

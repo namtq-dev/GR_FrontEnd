@@ -51,3 +51,18 @@ export const reactPost = async (postId, react, token) => {
     return error.response.data.message;
   }
 };
+
+export const getAllReacts = async (postId, token) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/getAllReacts/${postId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
