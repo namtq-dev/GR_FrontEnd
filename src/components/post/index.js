@@ -18,6 +18,7 @@ export default function Post({ post, user, profile }) {
   const [totalReacts, setTotalReacts] = useState(0);
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(1);
+  const [isPostSaved, setIsPostSaved] = useState();
 
   useEffect(() => {
     getAllPostReacts();
@@ -56,6 +57,7 @@ export default function Post({ post, user, profile }) {
     setReacts(response.reacts);
     setMyReact(response.myReact);
     setTotalReacts(response.total);
+    setIsPostSaved(response.isPostSaved);
   };
 
   return (
@@ -270,6 +272,8 @@ export default function Post({ post, user, profile }) {
           setShowMenu={setShowMenu}
           postId={post._id}
           token={user.loginToken}
+          isPostSaved={isPostSaved}
+          setIsPostSaved={setIsPostSaved}
         />
       )}
     </div>

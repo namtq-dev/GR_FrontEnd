@@ -10,6 +10,8 @@ export default function PostMenu({
   setShowMenu,
   postId,
   token,
+  isPostSaved,
+  setIsPostSaved,
 }) {
   const [isMyPost, setIsMyPost] = useState(
     userId === postUserId ? true : false
@@ -23,17 +25,30 @@ export default function PostMenu({
 
   const savePostHandler = async () => {
     savePost(postId, token);
+    if (isPostSaved) {
+      setIsPostSaved(false);
+    } else {
+      setIsPostSaved(true);
+    }
   };
 
   return (
     <ul className="post_menu" ref={menu}>
       {isMyPost && <MenuItem icon="pin_icon" title="Pin Post" />}
       <div onClick={savePostHandler}>
-        <MenuItem
-          icon="save_icon"
-          title="Save Post"
-          subtitle="Add this to your saved items."
-        />
+        {isPostSaved ? (
+          <MenuItem
+            icon="save_icon"
+            title="Unsave Post"
+            subtitle="Remove this from your saved items."
+          />
+        ) : (
+          <MenuItem
+            icon="save_icon"
+            title="Save Post"
+            subtitle="Add this to your saved items."
+          />
+        )}
       </div>
       <div className="line"></div>
       {isMyPost && <MenuItem icon="edit_icon" title="Edit Post" />}
