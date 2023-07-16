@@ -21,7 +21,7 @@ import AllMenu from './allMenu';
 import useClickOutside from '../../helpers/clickOutside';
 import UserMenu from './userMenu';
 
-export default function Header({ page }) {
+export default function Header({ page, getAllPosts }) {
   const color = '#65676b';
   const { user } = useSelector((state) => ({ ...state }));
   const [showSearchMenu, setShowSearchMenu] = useState(false);
@@ -67,6 +67,11 @@ export default function Header({ page }) {
         <Link
           to="/"
           className={`middle_icon ${page === 'home' ? 'active' : 'hover1'}`}
+          onClick={() => {
+            if (page === 'home') {
+              getAllPosts();
+            }
+          }}
         >
           {page === 'home' ? <HomeActive /> : <Home color={color} />}
         </Link>

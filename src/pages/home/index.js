@@ -18,7 +18,7 @@ export default function Home({ setCreatePostVisible, posts, getAllPosts }) {
 
   return (
     <div className="home">
-      <Header page="home" />
+      <Header page="home" getAllPosts={getAllPosts} />
       <LeftHome user={user} />
       <div className="home_middle">
         <Stories />
