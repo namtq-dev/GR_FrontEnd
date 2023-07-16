@@ -1,12 +1,15 @@
 import { useRef, useState } from 'react';
 import MenuItem from './menuItem';
 import useClickOutside from '../../helpers/clickOutside';
+import { savePost } from '../../helpers/post';
 
 export default function PostMenu({
   userId,
   postUserId,
   imagesLength,
   setShowMenu,
+  postId,
+  token,
 }) {
   const [isMyPost, setIsMyPost] = useState(
     userId === postUserId ? true : false
@@ -18,14 +21,20 @@ export default function PostMenu({
     setShowMenu(false);
   });
 
+  const savePostHandler = async () => {
+    savePost(postId, token);
+  };
+
   return (
     <ul className="post_menu" ref={menu}>
       {isMyPost && <MenuItem icon="pin_icon" title="Pin Post" />}
-      <MenuItem
-        icon="save_icon"
-        title="Save Post"
-        subtitle="Add this to your saved items."
-      />
+      <div onClick={savePostHandler}>
+        <MenuItem
+          icon="save_icon"
+          title="Save Post"
+          subtitle="Add this to your saved items."
+        />
+      </div>
       <div className="line"></div>
       {isMyPost && <MenuItem icon="edit_icon" title="Edit Post" />}
       {!isMyPost && (
