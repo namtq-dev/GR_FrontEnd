@@ -49,20 +49,14 @@ function App() {
         <CreatePostPopup
           user={user}
           setCreatePostVisible={setCreatePostVisible}
+          posts={posts}
+          dispatch={dispatch}
         />
       )}
       <Routes>
         <Route element={<LoggedInRoutes />}>
-          <Route
-            path="/profile"
-            element={<Profile setCreatePostVisible={setCreatePostVisible} />}
-            exact
-          />
-          <Route
-            path="/profile/:username"
-            element={<Profile setCreatePostVisible={setCreatePostVisible} />}
-            exact
-          />
+          <Route path="/profile" element={<Profile />} exact />
+          <Route path="/profile/:username" element={<Profile />} exact />
           <Route
             path="/"
             element={

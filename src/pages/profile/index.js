@@ -15,14 +15,16 @@ import Post from '../../components/post';
 import Photos from './photos';
 import Friends from './friends';
 import Intro from '../../components/intro';
+import CreatePostPopup from '../../components/createPostPopup';
 
-export default function Profile({ setCreatePostVisible }) {
+export default function Profile() {
   const navigate = useNavigate();
   const { username } = useParams();
   const { user } = useSelector((state) => ({ ...state }));
 
   const [photos, setPhotos] = useState({});
   const [otherName, setOtherName] = useState();
+  const [createPostVisible, setCreatePostVisible] = useState(false);
 
   let usernameToFind = username === undefined ? user.username : username;
   const path = `${usernameToFind}/*`;
@@ -83,6 +85,15 @@ export default function Profile({ setCreatePostVisible }) {
 
   return (
     <div className="profile">
+      {createPostVisible && (
+        <CreatePostPopup
+          user={user}
+          setCreatePostVisible={setCreatePostVisible}
+          posts={profile?.posts}
+          dispatch={dispatch}
+          profile
+        />
+      )}
       <Header page="profile" />
       <div className="profile_top">
         <div className="profile_container">
