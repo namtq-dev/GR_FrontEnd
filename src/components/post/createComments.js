@@ -5,7 +5,12 @@ import { uploadImages } from '../../helpers/uploadImages';
 import dataURItoBlob from '../../helpers/dataURItoBlob';
 import { ClipLoader } from 'react-spinners';
 
-export default function CreateComments({ user, postId }) {
+export default function CreateComments({
+  user,
+  postId,
+  setComments,
+  setCommentCount,
+}) {
   const [picker, setPicker] = useState(false);
   const [text, setText] = useState('');
   const [cursorPosition, setCursorPosition] = useState();
@@ -74,8 +79,14 @@ export default function CreateComments({ user, postId }) {
           newCommentImg[0].url,
           user.loginToken
         );
+
+        setComments(newComments);
+        setCommentCount((prev) => ++prev);
       } else {
         const newComments = await comment(postId, text, '', user.loginToken);
+
+        setComments(newComments);
+        setCommentCount((prev) => ++prev);
       }
 
       setLoading(false);

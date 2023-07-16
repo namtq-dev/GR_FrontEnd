@@ -8,6 +8,7 @@ import './style.css';
 import PostMenu from './postMenu';
 import { getAllReacts } from '../../helpers/post';
 import { reactPost } from '../../helpers/post';
+import Comment from './comment';
 
 export default function Post({ post, user, profile }) {
   const [visible, setVisible] = useState(false);
@@ -15,9 +16,12 @@ export default function Post({ post, user, profile }) {
   const [reacts, setReacts] = useState();
   const [myReact, setMyReact] = useState();
   const [totalReacts, setTotalReacts] = useState(0);
+  const [comments, setComments] = useState([]);
+  const [commentCount, setCommentCount] = useState(1);
 
   useEffect(() => {
     getAllPostReacts();
+    setComments(post?.comments);
   }, [post]);
 
   const reactHandler = async (react) => {
@@ -167,7 +171,7 @@ export default function Post({ post, user, profile }) {
           </div>
         </div>
         <div className="to_right">
-          <div className="comments_count">13 comments</div>
+          <div className="comments_count">{comments.length} comments</div>
           <div className="share_count">1 share</div>
         </div>
       </div>
@@ -234,7 +238,29 @@ export default function Post({ post, user, profile }) {
       </div>
       <div className="comments_wrap">
         <div className="comments_order"></div>
-        <CreateComments user={user} postId={post._id} />
+        <CreateComments
+          user={user}
+          postId={post._id}
+          setComments={setComments}
+          setCommentCount={setCommentCount}
+        />
+        {comments &&
+          comments
+            .sort((comment1, comment2) => {
+              return (
+                new Date(comment2.commentAt) - new Date(comment1.commentAt)
+              );
+            })
+            .slice(0, commentCount)
+            .map((comment, i) => <Comment comment={comment} key={i} />)}
+        {commentCount < comments.length && (
+          <div
+            className="view_comments"
+            onClick={() => setCommentCount((prev) => prev + 3)}
+          >
+            View more
+          </div>
+        )}
       </div>
       {showMenu && (
         <PostMenu
