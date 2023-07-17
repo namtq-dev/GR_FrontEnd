@@ -1,9 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { Return, Search } from '../../svg';
 import useClickOutside from '../../helpers/clickOutside';
+import { search } from '../../helpers/user';
+import { Link } from 'react-router-dom';
 
-export default function SearchMenu({ color, setShowSearchMenu }) {
+export default function SearchMenu({ color, setShowSearchMenu, token }) {
   const [searchIconVisible, setSearchIconVisible] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [results, setResults] = useState([]);
+
   const menu = useRef(null);
   const input = useRef(null);
 
@@ -14,6 +19,15 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
   useEffect(() => {
     input.current.focus();
   }, []);
+
+  const searchHandler = async () => {
+    if (searchTerm === '') {
+      setResults([]);
+    } else {
+      const response = await search(searchTerm, token);
+      setResults(response);
+    }
+  };
 
   return (
     <div className="header_left search_area scrollbar" ref={menu}>
@@ -43,6 +57,9 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
             type="text"
             placeholder="Search Aimer"
             ref={input}
+            value={searchTerm}
+            onChange={(eve) => setSearchTerm(eve.target.value)}
+            onKeyUp={searchHandler}
             onFocus={() => {
               setSearchIconVisible(false);
             }}
@@ -57,7 +74,21 @@ export default function SearchMenu({ color, setShowSearchMenu }) {
         <a href="/">Edit</a>
       </div>
       <div className="search_history"></div>
-      <div className="search_results scrollbar"></div>
+      <div className="search_results scrollbar">
+        {results &&
+          results.map((user, i) => (
+            <Link
+              to={`/profile/${user.username}`}
+              key={i}
+              className="search_user_item hover1"
+            >
+              <img src={user.picture} alt="" />
+              <span>
+                {user.firstName} {user.lastName}
+              </span>
+            </Link>
+          ))}
+      </div>
     </div>
   );
 }
