@@ -4,6 +4,7 @@ import './style.css';
 import { getFriendsPage } from '../../helpers/user';
 import { useSelector } from 'react-redux';
 import { friendsPageReducer } from '../../reducers/friendsPageReducer';
+import Card from './card';
 
 export default function Friends() {
   const { user } = useSelector((state) => ({ ...state }));
@@ -103,7 +104,44 @@ export default function Friends() {
             </div>
           </div>
         </div>
-        <div className="friends_right"></div>
+        <div className="friends_right">
+          <div className="friends_right_wrap">
+            <div className="friends_left_header">
+              <h3>Friend requests</h3>
+              <a className="see_link hover3">See all</a>
+            </div>
+            <div className="flex_wrap">
+              {data.requests &&
+                data.requests.map((user) => (
+                  <Card user={user} key={user._id} type="request" />
+                ))}
+            </div>
+          </div>
+          <div className="friends_right_wrap">
+            <div className="friends_left_header">
+              <h3>Sent requests</h3>
+              <a className="see_link hover3">See all</a>
+            </div>
+            <div className="flex_wrap">
+              {data.sentRequests &&
+                data.sentRequests.map((user) => (
+                  <Card user={user} key={user._id} type="sent" />
+                ))}
+            </div>
+          </div>
+          <div className="friends_right_wrap">
+            <div className="friends_left_header">
+              <h3>All friends</h3>
+              <a className="see_link hover3">See all</a>
+            </div>
+            <div className="flex_wrap">
+              {data.friends &&
+                data.friends.map((user) => (
+                  <Card user={user} key={user._id} type="friend" />
+                ))}
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );
