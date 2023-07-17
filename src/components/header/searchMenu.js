@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Return, Search } from '../../svg';
 import useClickOutside from '../../helpers/clickOutside';
-import { search } from '../../helpers/user';
+import { addToSearchHistory, search } from '../../helpers/user';
 import { Link } from 'react-router-dom';
 
 export default function SearchMenu({ color, setShowSearchMenu, token }) {
@@ -27,6 +27,10 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
       const response = await search(searchTerm, token);
       setResults(response);
     }
+  };
+
+  const addToSearchHistoryHandler = async (searchedUser) => {
+    const response = await addToSearchHistory(searchedUser, token);
   };
 
   return (
@@ -81,6 +85,7 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
               to={`/profile/${user.username}`}
               key={i}
               className="search_user_item hover1"
+              onClick={() => addToSearchHistoryHandler(user._id)}
             >
               <img src={user.picture} alt="" />
               <span>

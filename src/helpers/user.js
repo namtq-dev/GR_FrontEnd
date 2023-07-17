@@ -174,3 +174,19 @@ export const search = async (searchTerm, token) => {
     return error.response.data.message;
   }
 };
+
+export const addToSearchHistory = async (searchedUser, token) => {
+  try {
+    const { data } = await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/addToSearchHistory`,
+      { searchedUser },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
