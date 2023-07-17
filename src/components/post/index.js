@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Moment from 'react-moment';
 import { Dots, Public } from '../../svg';
 import ReactsPopup from './reactsPopup';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CreateComments from './createComments';
 import './style.css';
 import PostMenu from './postMenu';
@@ -19,6 +19,8 @@ export default function Post({ post, user, profile }) {
   const [comments, setComments] = useState([]);
   const [commentCount, setCommentCount] = useState(1);
   const [isPostSaved, setIsPostSaved] = useState();
+
+  const postRef = useRef(null);
 
   useEffect(() => {
     getAllPostReacts();
@@ -61,7 +63,11 @@ export default function Post({ post, user, profile }) {
   };
 
   return (
-    <div className="post" style={{ width: `${profile && '100%'}` }}>
+    <div
+      className="post"
+      style={{ width: `${profile && '100%'}` }}
+      ref={postRef}
+    >
       <div className="post_header">
         <Link
           className="post_header_left"
@@ -275,6 +281,7 @@ export default function Post({ post, user, profile }) {
           isPostSaved={isPostSaved}
           setIsPostSaved={setIsPostSaved}
           images={post.images}
+          postRef={postRef}
         />
       )}
     </div>

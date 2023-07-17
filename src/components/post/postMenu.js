@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import MenuItem from './menuItem';
 import useClickOutside from '../../helpers/clickOutside';
-import { savePost } from '../../helpers/post';
+import { deletePost, savePost } from '../../helpers/post';
 import { saveAs } from 'file-saver';
 
 export default function PostMenu({
@@ -14,6 +14,7 @@ export default function PostMenu({
   isPostSaved,
   setIsPostSaved,
   images,
+  postRef,
 }) {
   const [isMyPost, setIsMyPost] = useState(
     userId === postUserId ? true : false
@@ -40,6 +41,13 @@ export default function PostMenu({
       saveAs(img.url, imgName);
       return img;
     });
+  };
+
+  const deletePostHandler = async () => {
+    const response = await deletePost(postId, token);
+    if (response.status === 'OK') {
+      postRef.current.remove();
+    }
   };
 
   return (
@@ -94,11 +102,13 @@ export default function PostMenu({
       )}
       {isMyPost && <MenuItem icon="archive_icon" title="Move to archive" />}
       {isMyPost && (
-        <MenuItem
-          icon="trash_icon"
-          title="Move to trash"
-          subtitle="Items in your trash are deleted after 30 days."
-        />
+        <div onClick={deletePostHandler}>
+          <MenuItem
+            icon="trash_icon"
+            title="Move to trash"
+            subtitle="Items in your trash are deleted after 30 days."
+          />
+        </div>
       )}
       {!isMyPost && <div className="line"></div>}
       {!isMyPost && (
