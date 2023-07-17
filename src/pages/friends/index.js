@@ -1,7 +1,34 @@
+import { useEffect, useReducer } from 'react';
 import Header from '../../components/header';
 import './style.css';
+import { getFriendsPage } from '../../helpers/user';
+import { useSelector } from 'react-redux';
+import { friendsPageReducer } from '../../reducers/friendsPageReducer';
 
 export default function Friends() {
+  const { user } = useSelector((state) => ({ ...state }));
+
+  const [{ loading, data, error }, dispatch] = useReducer(friendsPageReducer, {
+    loading: false,
+    data: {},
+    error: '',
+  });
+
+  useEffect(() => {
+    getPageData();
+  }, []);
+
+  const getPageData = async () => {
+    dispatch({ type: 'FRIENDS_PAGE_REQUEST' });
+    const data = await getFriendsPage(user.loginToken);
+
+    if (data.status === 'OK') {
+      dispatch({ type: 'FRIENDS_PAGE_SUCCESS', payload: data.data });
+    } else {
+      dispatch({ type: 'FRIENDS_PAGE_ERROR', payload: data.data });
+    }
+  };
+
   return (
     <>
       <Header page="friends" />

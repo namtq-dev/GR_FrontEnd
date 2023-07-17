@@ -221,3 +221,18 @@ export const deleteSearchHistory = async (searchedUser, token) => {
     return error.response.data.message;
   }
 };
+
+export const getFriendsPage = async (token) => {
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BACKEND_URL}/getFriendsPage`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return { status: 'OK', data };
+  } catch (error) {
+    return error.response.data.message;
+  }
+};
