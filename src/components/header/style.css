@@ -513,13 +513,14 @@ header {
   height: 20px;
 }
 
-/* .search_user_item i {
+.search_user_item i {
   position: absolute;
   right: 10px;
   transform: scale(0.6);
-} */
+}
 /* User Menu */
-.search_results {
+.search_results,
+.search_history {
   width: 100%;
   max-height: 50vh;
   overflow-y: auto;
