@@ -205,3 +205,19 @@ export const getSearchHistory = async (token) => {
     return error.response.data.message;
   }
 };
+
+export const deleteSearchHistory = async (searchedUser, token) => {
+  try {
+    const { data } = await axios.patch(
+      `${process.env.REACT_APP_BACKEND_URL}/deleteSearchHistory`,
+      { searchedUser },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    return error.response.data.message;
+  }
+};

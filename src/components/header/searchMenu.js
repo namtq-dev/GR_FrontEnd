@@ -3,6 +3,7 @@ import { Return, Search } from '../../svg';
 import useClickOutside from '../../helpers/clickOutside';
 import {
   addToSearchHistory,
+  deleteSearchHistory,
   getSearchHistory,
   search,
 } from '../../helpers/user';
@@ -44,7 +45,12 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
 
   const addToSearchHistoryHandler = async (searchedUser) => {
     const response = await addToSearchHistory(searchedUser, token);
-    getSearchHistory(token);
+    getSearchHistoryHandler();
+  };
+
+  const deleteSearchHistoryHandler = async (searchedUser) => {
+    await deleteSearchHistory(searchedUser, token);
+    getSearchHistoryHandler();
   };
 
   return (
@@ -112,7 +118,12 @@ export default function SearchMenu({ color, setShowSearchMenu, token }) {
                     {user.user.firstName} {user.user.lastName}
                   </span>
                 </Link>
-                <i className="exit_icon"></i>
+                <i
+                  className="exit_icon"
+                  onClick={() => {
+                    deleteSearchHistoryHandler(user.user._id);
+                  }}
+                ></i>
               </div>
             ))}
       </div>
