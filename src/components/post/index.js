@@ -274,6 +274,7 @@ export default function Post({ post, user, profile }) {
           token={user.loginToken}
           isPostSaved={isPostSaved}
           setIsPostSaved={setIsPostSaved}
+          images={post.images}
         />
       )}
     </div>

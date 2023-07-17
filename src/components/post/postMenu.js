@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import MenuItem from './menuItem';
 import useClickOutside from '../../helpers/clickOutside';
 import { savePost } from '../../helpers/post';
+import { saveAs } from 'file-saver';
 
 export default function PostMenu({
   userId,
@@ -12,6 +13,7 @@ export default function PostMenu({
   token,
   isPostSaved,
   setIsPostSaved,
+  images,
 }) {
   const [isMyPost, setIsMyPost] = useState(
     userId === postUserId ? true : false
@@ -30,6 +32,14 @@ export default function PostMenu({
     } else {
       setIsPostSaved(true);
     }
+  };
+
+  const downloadImages = async () => {
+    images?.map((img) => {
+      const imgName = img.url.substr(img.url.lastIndexOf('/') + 1);
+      saveAs(img.url, imgName);
+      return img;
+    });
   };
 
   return (
@@ -58,7 +68,11 @@ export default function PostMenu({
           title="Turn on notifications for this Post"
         />
       )}
-      {imagesLength && <MenuItem icon="download_icon" title="Download" />}
+      {imagesLength && (
+        <div onClick={downloadImages}>
+          <MenuItem icon="download_icon" title="Download" />
+        </div>
+      )}
       {imagesLength && (
         <MenuItem icon="fullscreen_icon" title="Enter Fullscreen" />
       )}
