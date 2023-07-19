@@ -83,7 +83,7 @@ export default function UpdateProfilePicture({
         );
 
         setLoading(false);
-        if (newPost === 'OK') {
+        if (newPost.status === 'OK') {
           avatarRef.current.style.backgroundImage = `url(${response[0].url})`;
           dispatch({
             type: 'UPDATE_AVATAR',

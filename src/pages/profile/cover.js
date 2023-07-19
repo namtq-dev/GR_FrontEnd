@@ -106,7 +106,7 @@ export default function Cover({ cover, isVisitor, photos }) {
         );
 
         setLoading(false);
-        if (newPost === 'OK') {
+        if (newPost.status === 'OK') {
           setCoverPicture('');
           coverPictureRef.current.src = response[0].url;
         } else {
