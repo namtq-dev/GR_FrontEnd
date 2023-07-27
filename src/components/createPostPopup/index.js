@@ -31,7 +31,7 @@ export default function CreatePostPopup({
   });
 
   const postSubmit = async () => {
-    if (background) {
+    if (background && text && text.length < 250) {
       setLoading(true);
       const response = await createPost(
         null,
@@ -90,7 +90,7 @@ export default function CreatePostPopup({
       } else {
         setError(response);
       }
-    } else if (text) {
+    } else if (text && text.length < 250) {
       setLoading(true);
       const response = await createPost(
         null,
