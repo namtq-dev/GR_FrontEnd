@@ -332,6 +332,7 @@
   font-size: 15px;
 }
 
+.unhide:hover,
 .comments_count:hover,
 .share_count:hover {
   cursor: pointer;

@@ -21,6 +21,8 @@ export default function Post({ post, user, profile }) {
   const [isPostSaved, setIsPostSaved] = useState();
 
   const postRef = useRef(null);
+  const postTextRef = useRef(null);
+  const unhideButtonRef = useRef(null);
 
   useEffect(() => {
     getAllPostReacts();
@@ -60,6 +62,11 @@ export default function Post({ post, user, profile }) {
     setMyReact(response.myReact);
     setTotalReacts(response.total);
     setIsPostSaved(response.isPostSaved);
+  };
+
+  const unhideContent = () => {
+    postTextRef.current.innerText = post.text;
+    unhideButtonRef.current.style.display = 'None';
   };
 
   return (
@@ -112,7 +119,11 @@ export default function Post({ post, user, profile }) {
         </div>
       ) : post.type === null ? (
         <>
-          <div className="post_text">{post.text}</div>
+          <div className="post_text" ref={postTextRef}>
+            {Number(post?.score) <= -1
+              ? 'This post may contain inappropriate content.'
+              : post.text}
+          </div>
           {post.images && post.images.length && (
             <div
               className={
@@ -179,6 +190,15 @@ export default function Post({ post, user, profile }) {
           </div>
         </div>
         <div className="to_right">
+          {Number(post?.score) <= -1 ? (
+            <div
+              className="unhide"
+              ref={unhideButtonRef}
+              onClick={() => unhideContent()}
+            >
+              Unhide
+            </div>
+          ) : null}
           <div className="comments_count">{comments.length} comments</div>
           <div className="share_count">1 share</div>
         </div>
