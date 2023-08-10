@@ -122,9 +122,13 @@ export default function Header({ page, getAllPosts }) {
           </div>
           {showAllMenu && <AllMenu />}
         </div>
-        <div className="circle_icon hover1">
+        <Link
+          to={process.env.REACT_APP_CHAT_APP_URL}
+          target="_blank"
+          className="circle_icon hover1"
+        >
           <Messenger />
-        </div>
+        </Link>
         <div className="circle_icon hover1">
           <Notifications />
           <div className="right_notification">5</div>
